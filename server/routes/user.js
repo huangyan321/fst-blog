@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const Utils = require('../utils');
-const Tips = require('../utils/tip')
+const user = require('../dao/user_dao');
 /* GET users listing. */
-router.get('/login', function(req, res, next) {
-  
+router.post('/login', function(req, res, next) {
+  user.login(req,res)
 });
 
 module.exports = router;

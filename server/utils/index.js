@@ -25,6 +25,10 @@ let util = {
 				break;
 			}
 			let value = params[key] || '';
+			if (IS.empty(value)) {
+				res = false;
+				break;
+			}
 			if (type === 'not_empty') {
 				if (IS.empty(value)) {
 					res = false;
