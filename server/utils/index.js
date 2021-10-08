@@ -82,11 +82,11 @@ let util = {
 	},
 	getDate19() {
 		return new Date().format(f19);
-	}
+	},
 
 	getNowDay() {
 		return getDate19().split(" ")[0];
-	}
+	},
 	checkLogin(ctx) {
 		let uid = ctx.cookies.get('uid');
 		if (!uid) {
