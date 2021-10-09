@@ -6,6 +6,7 @@ global.globalkey = "123456" //全局key
 const Utils = require('./utils');
 const Tips = require('./utils/tip');
 const router = require('./routes');
+
 var app = express();
 
 
@@ -16,7 +17,6 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+require('./routes/admin/index')(app)
 router(app);
-
 module.exports = app;

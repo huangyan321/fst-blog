@@ -3,7 +3,7 @@ module.exports = {
 	/**
 	 * 增加
 	 * @param {String} table 表
-	 * @param {Array} params 查询参数
+	 * @param {Array} params 待添加的字段
 	 * @returns 
 	 */
 	Add(table, params) {
@@ -25,7 +25,7 @@ module.exports = {
 		} else {
 			return false
 		}
-	}
+	},
 	/**
 	 * 
 	 * @param {String} table 表
@@ -39,7 +39,7 @@ module.exports = {
 		} else {
 			return false
 		}
-	}
+	},
 	/**
 	 * 
 	 * @param {String} table 表
@@ -53,21 +53,20 @@ module.exports = {
 		} else {
 			return false
 		}
-	}
+	},
 	/**
 	 * 
 	 * @param {String} table 表
-	 * @param {Array} params 查询参数
 	 * @param {Array} where 表位置
 	 * @returns 
 	 */
-	QuerySum(table, params, where) {
-		if (IS.array(where) && IS.string(table) && IS.array(params)) {
+	QuerySum(table, where) {
+		if (IS.array(where) && IS.string(table)) {
 			return `SELECT count(1) FROM  ${table} WHERE ${where.map(i=>i).join(' = ? and ') + ' = ?'};`
 		} else {
 			return false
 		}
-	}
+	},
 	/**
 	 * 
 	 * @param {String} table 表
@@ -82,7 +81,7 @@ module.exports = {
 		} else {
 			return false
 		}
-	}
+	},
 	/**
 	 * 
 	 * @param {String} table 表
@@ -99,5 +98,5 @@ module.exports = {
 		} else {
 			return false
 		}
-	}
+	},
 }
