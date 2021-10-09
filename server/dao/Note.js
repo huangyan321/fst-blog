@@ -2,7 +2,7 @@ const Jwt = require('../utils/jwtUtils');
 const Utils = require('../utils');
 const Tips = require('../utils/tip');
 
-module.exports = class Note_dao extends require('../model/admin/curd') {
+module.exports = class Note_dao extends require('../model/common/curd') {
 	//新增笔记
 	static async add(req, res) {
 		const data = Utils.filter(req.body, ['name']);

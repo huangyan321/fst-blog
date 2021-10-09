@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const note = require('../dao/note_dao');
+const note = require('../dao/Note');
 /* GET users listing. */
 router.post('/add', function (req, res, next) {
 	note.add(req, res)
