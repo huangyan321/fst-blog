@@ -1,7 +1,9 @@
 const Jwt = require('../utils/jwtUtils');
 const Utils = require('../utils');
 const Tips = require('../utils/tip');
+
 module.exports = class User_dao extends require('../model/user_mod') {
+	//登录接口
 	static async login(req, res) {
 		const data = Utils.filter(req.body, ['username', 'password']);
 		//字段校验
@@ -38,6 +40,19 @@ module.exports = class User_dao extends require('../model/user_mod') {
 				...Tips[1006],
 			})
 		}
-
+	}
+	static async getUserInfo(req, res) {
+		const {
+			uid
+		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
+		if (uid) {
+			const userInfo = await this.getUserInfoMod(uid);
+			res.send({
+				...Tips[0],
+				userInfo
+			})
+		} else {
+			res.send(Tips[1008])
+		}
 	}
 }
