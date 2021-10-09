@@ -41,6 +41,7 @@ module.exports = class User_dao extends require('../model/user_mod') {
 			})
 		}
 	}
+	//用户信息获取
 	static async getUserInfo(req, res) {
 		const {
 			uid
@@ -54,5 +55,8 @@ module.exports = class User_dao extends require('../model/user_mod') {
 		} else {
 			res.send(Tips[1008])
 		}
+	}
+	static async logout(req, res) {
+		res.send(Tips[0])
 	}
 }
