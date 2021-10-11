@@ -1,8 +1,9 @@
 const Jwt = require('../utils/jwtUtils');
 const Utils = require('../utils');
 const Tips = require('../utils/tip');
+const { number } = require('is');
 
-module.exports = class Note_dao extends require('../model/common/curd') {
+module.exports = class Blog_dao extends require('../model/common/curd') {
 	//新增博客
 	static async add(req, res) {
 		const data = Utils.filter(req.body, ['title', 'content', 'note_id', 'brief', 'publish']);
@@ -59,7 +60,7 @@ module.exports = class Note_dao extends require('../model/common/curd') {
 	}
 	//删除博客
 	static async delete(req, res) {
-		const data = Utils.filter(req.body, ['id']);
+		const data = Utils.filter(req.params, ['id']);
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
@@ -93,6 +94,7 @@ module.exports = class Note_dao extends require('../model/common/curd') {
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
+		console.log(data);
 		const result = Utils.formatData(data, [{
 				key: 'note_id',
 				type: 'number'
@@ -132,16 +134,17 @@ module.exports = class Note_dao extends require('../model/common/curd') {
 			publish = 0,
 			update_time = ''
 		} = data;
+		id = Number(id)
 		update_time = Utils.getDate19();
 		try {
-			await this.editField("t_blog ", ['title', 'content', 'note_id', 'id', 'brief', 'publish', 'update_time'], ["id", "uid"], title, content, note_id, id, brief, publish, update_time, id, uid)
+			await this.editField("t_blog ", ['title', 'content', 'note_id','brief', 'publish', 'update_time'], ["id", "uid"], title, content, note_id, brief, publish, update_time, id, uid)
 			res.send(Tips[0])
 		} catch (err) {
 			res.send(Tips[1008])
 		}
 	}
 	//发布博客
-	static async edit(req, res) {
+	static async changeBlogStatus(req, res) {
 		const data = Utils.filter(req.body, ['id', 'publish']);
 		const {
 			uid
@@ -187,7 +190,7 @@ module.exports = class Note_dao extends require('../model/common/curd') {
 				...Tips[1007]
 			})
 		}
-		const {
+		let {
 			id
 		} = data;
 		id = parseInt(id);
@@ -201,7 +204,7 @@ module.exports = class Note_dao extends require('../model/common/curd') {
 			res.send(Tips[1008])
 		}
 	}
-	//查询所有笔记本(type：0所有type：1分页)
+	//查询所有博客(type：0所有 type：1根据笔记本查询)
 	static async queryByType(req, res) {
 		const data = Utils.filter(req.query, ['pageSize', 'pageNum', 'note_id', 'type'])
 		const {

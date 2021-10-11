@@ -49,6 +49,7 @@ module.exports = class Curd extends require('../index') {
 				this.query(sql, this.formatParams(...values)).then(res => {
 					resolve(res)
 				}).catch(err => {
+					console.log(err);
 					reject(err)
 				})
 			}

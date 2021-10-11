@@ -10,19 +10,19 @@ module.exports = app => {
 		req.Model.add(req, res)
 	});
 	//删除
-	router.delete('/:id', function (req, res, next) {
+	router.delete('/', function (req, res, next) {
 		req.Model.delete(req, res)
 	});
 	//修改
-	router.put('/:id', function (req, res, next) {
+	router.put('/', function (req, res, next) {
 		req.Model.edit(req, res)
 	});
 	//查询详细信息
-	router.get('/:id', function (req, res, next) {
+	router.get('/query', function (req, res, next) {
 		req.Model.queryOne(req, res)
 	});
 	//查询所有列表
-	router.get('/', function (req, res, next) {
+	router.get('/queryAll', function (req, res, next) {
 		req.Model.queryByType(req, res)
 	});
 

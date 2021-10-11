@@ -35,7 +35,7 @@ module.exports = {
 	 */
 	Edit(table, set, where) {
 		if (IS.string(table) && IS.array(set) && IS.array(where)) {
-			return `UPDATE ${table} set ${set.map(i=>i).join(' = ? and ') + ' = ?'} WHERE ${where.map(i=>i).join(' = ? and ') + ' = ?'}`
+			return `UPDATE ${table} set ${set.map(i=>i).join(' = ? , ') + ' = ?'} WHERE ${where.map(i=>i).join(' = ? and ') + ' = ?'}`
 		} else {
 			return false
 		}
