@@ -1,7 +1,9 @@
 const Jwt = require('../utils/jwtUtils');
 const Utils = require('../utils');
 const Tips = require('../utils/tip');
-const { number } = require('is');
+const {
+	number
+} = require('is');
 
 module.exports = class Blog_dao extends require('../model/common/curd') {
 	//新增博客
@@ -60,7 +62,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 	}
 	//删除博客
 	static async delete(req, res) {
-		const data = Utils.filter(req.params, ['id']);
+		const data = Utils.filter(req.body, ['id']);
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
@@ -90,11 +92,10 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 	}
 	//修改
 	static async edit(req, res) {
-		const data = Utils.filter(req.body, ['title','content', 'note_id', 'id', 'brief', 'publish']);
+		const data = Utils.filter(req.body, ['title', 'content', 'note_id', 'id', 'brief', 'publish']);
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
-		console.log(data);
 		const result = Utils.formatData(data, [{
 				key: 'note_id',
 				type: 'number'
@@ -137,14 +138,15 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 		id = Number(id)
 		update_time = Utils.getDate19();
 		try {
-			await this.editField("t_blog ", ['title', 'content', 'note_id','brief', 'publish', 'update_time'], ["id", "uid"], title, content, note_id, brief, publish, update_time, id, uid)
+			await this.editField("t_blog ", ['title', 'content', 'note_id', 'brief', 'publish', 'update_time'], ["id", "uid"], title, content, note_id, brief, publish, update_time, id, uid)
 			res.send(Tips[0])
 		} catch (err) {
 			res.send(Tips[1008])
 		}
 	}
 	//发布博客
-	static async changeBlogStatus(req, res) {
+	static async changeBlogPublicStatus(req, res) {
+		console.log("进来了");
 		const data = Utils.filter(req.body, ['id', 'publish']);
 		const {
 			uid
@@ -169,9 +171,10 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 		} = data;
 		const update_time = Utils.getDate19();
 		try {
-			await this.editField("t_blog", ['publish'], ["uid", "id"], publish, id, uid)
+			await this.editField("t_blog", ['publish'], ["uid", "id"], publish, uid, id)
 			res.send(Tips[0])
 		} catch (err) {
+			console.log(err);
 			res.send(Tips[1008])
 		}
 	}
