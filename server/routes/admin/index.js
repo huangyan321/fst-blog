@@ -17,6 +17,10 @@ module.exports = app => {
 	router.put('/', function (req, res, next) {
 		req.Model.edit(req, res)
 	});
+	//修改
+	router.put('/publish', function (req, res, next) {
+		req.Model.changeBlogPublicStatus(req, res)
+	});
 	//查询详细信息
 	router.get('/query', function (req, res, next) {
 		req.Model.queryOne(req, res)
@@ -25,10 +29,20 @@ module.exports = app => {
 	router.get('/queryAll', function (req, res, next) {
 		req.Model.queryByType(req, res)
 	});
-
+	const multer = require('multer')
+	const upload = multer({
+		dest: __dirname + '/../../static'
+	})
+	//文件上传
+	app.use('/admin/api/upload', upload.single('file'), function (req, res) {
+		require('../../dao/Img').imgUpload(req, res)
+	})
 	app.use('/admin/:resource', function (req, res, next) {
 		//将路由名规范化为模块名称
-		const modelName = inflection.classify(req.params.resource);
+		let resource = req.params.resource;
+		let i = resource.indexOf('/');
+		resource = i!==-1?resource.slice(0,i):resource
+		const modelName = inflection.classify(resource);
 		console.log(modelName);
 		//引入对应模块
 		const model = require(`../../dao/${modelName}`);
@@ -36,4 +50,5 @@ module.exports = app => {
 		req.Model = model;
 		next();
 	}, router)
+
 }
