@@ -2,6 +2,7 @@ module.exports = app => {
 	var express = require('express');
 	var assert = require('http-assert')
 	var inflection = require('inflection')
+  var userRouter = require('./login')
 	var router = express.Router({
 		mergeParams: true
 	});
@@ -37,7 +38,7 @@ module.exports = app => {
 	app.use('/admin/api/upload', upload.single('file'), function (req, res) {
 		require('../../dao/Img').imgUpload(req, res)
 	})
-	app.use('/admin/:resource', function (req, res, next) {
+	app.use('/admin/api/:resource', function (req, res, next) {
 		//将路由名规范化为模块名称
 		let resource = req.params.resource;
 		let i = resource.indexOf('/');
@@ -50,5 +51,6 @@ module.exports = app => {
 		req.Model = model;
 		next();
 	}, router)
+	app.use('/admin/user', userRouter)
 
 }

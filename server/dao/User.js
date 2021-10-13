@@ -47,10 +47,10 @@ module.exports = class User_dao extends require('../model/user_mod') {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
 		if (uid) {
-			const userInfo = await this.getUserInfoMod(uid);
+			const data = await this.getUserInfoMod(uid);
 			res.send({
 				...Tips[0],
-				userInfo
+				data
 			})
 		} else {
 			res.send(Tips[1008])
