@@ -1,76 +1,79 @@
 <template>
   <div>
     <div class="title">
-      <h1>{{ id ? "编辑" : "创建" }}文章</h1>
+      <el-row>
+        <el-col :span="12">
+          <h1>{{ id ? "编辑" : "创建" }}文章</h1>
+        </el-col>
+        <el-col :span="12">
+          <el-button
+            type="primary"
+            @click.stop.prevent="save"
+            style="margin-top: 20px"
+            :loading="loading"
+          >
+            保存
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-form ref="articleInfo" :model="articleInfo" :rules="rules">
+        <el-form-item label="文章标题" prop="title">
+          <el-input v-model="articleInfo.title"></el-input>
+        </el-form-item>
+        <el-form-item label="添加标签" prop="tags">
+          <el-input
+            placeholder="按下回车添加标签"
+            v-model="curTagName"
+            @keyup.enter.native="AddTag"
+          ></el-input>
+          <el-tag
+            v-for="tag in articleInfo.tags"
+            :key="tag"
+            closable
+            @close="handleTagClose(tag)"
+          >
+            {{ tag }}
+          </el-tag>
+        </el-form-item>
+        <el-form-item prop="editText">
+          <Markdown v-model="articleInfo.editText" />
+        </el-form-item>
+      </el-form>
     </div>
-    <el-form ref="articleInfo" :model="articleInfo" :rules="rules">
-      <el-form-item label="上级分类" prop="parent">
-        <el-select
-          v-model="articleInfo.categories"
-          multiple
-          placeholder="请选择文章分类"
-        >
-          <el-option
-            v-for="item in newsList"
-            :key="item._id"
-            :label="item.name"
-            :value="item._id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="articleInfo.title"> </el-input>
-      </el-form-item>
-      <el-form-item label="内容" prop="editText">
-        <tinymce
-          style="width:50%; display: block"
-          :tinyvalue="articleInfo.editText"
-          :height="400"
-          @tinymceinput="tinymceinput"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          @click.stop.prevent="save"
-          style="margin-top: 20px"
-          :loading="loading"
-        >
-          保存
-        </el-button>
-      </el-form-item>
-    </el-form>
   </div>
 </template>
 <script>
-import {
-  getArticleList,
-  addArticle,
-  getOneArticle,
-  editOneArticle,
-} from "@/api/article";
-import Tinymce from "@/components/Tinymce";
+import Markdown from "vue-meditor";
+// import { MarkdownPreview } from "vue-meditor";
+import { addArticle, getOneArticle, editOneArticle } from "@/api/article";
 export default {
   components: {
-    Tinymce,
+    Markdown,
   },
   props: {
     id: {
       type: String,
     },
   },
+  watch: {
+    articleInfo: {
+      deep: true,
+      handler(nv) {
+        console.log(nv.editText);
+      },
+    },
+  },
   created() {
     this.id ? this.getArticle() : "";
-    this.getCategoryList();
+    // this.getCategoryList();
   },
   data() {
     return {
       newsList: [],
-      parentsList: [],
       articleInfo: {
-        name: "",
-        categories: [],
+        title: "",
         editText: "",
+        tags: ["标签一", "标签二", "标签三"],
       },
       rules: {
         name: [
@@ -83,6 +86,7 @@ export default {
         ],
       },
       loading: false,
+      curTagName: "",
     };
   },
   mounted() {},
@@ -106,9 +110,6 @@ export default {
         this.loading = false;
       });
     },
-    tinymceinput(txt) {
-      this.articleInfo.editText = txt;
-    },
     async getArticle() {
       let res = await getOneArticle(this.id);
       this.articleInfo = res;
@@ -119,8 +120,19 @@ export default {
         return item.parent ? item.parent.name === "news" : "";
       });
     },
+    AddTag() {
+      console.log("asdasd");
+      this.articleInfo.tags.push({ name: this.curTagName, type: "" });
+    },
+    handleTagClose(v) {
+
+      this.articleInfo.tags.splice(this.articleInfo.tags.indexOf(v), 1);
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
+.el-tag {
+  margin-top: 0.5rem;
+}
 </style>

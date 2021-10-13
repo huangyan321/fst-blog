@@ -6,6 +6,7 @@
         <el-table-column label="序号" prop="_id" />
         <el-table-column label="标题" prop="title" />
         <el-table-column label="简介" prop="brief" />
+        <el-table-column label="发布状态" :formatter="publishStatus" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -79,6 +80,9 @@ export default {
           : this.$notify.error("删除失败");
       });
       this.loading = false;
+    },
+    publishStatus(v) {
+      return v.publish?'已发布':'待发布'
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {

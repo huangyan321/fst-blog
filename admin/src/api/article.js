@@ -2,34 +2,34 @@ import request from '@/utils/request'
 
 export function addArticle(data) {
   return request({
-    url: '/blogs',
+    url: '/api/blogs',
     method: 'post',
     data
   })
 }
 export function getArticleList(params) {
   return request({
-    url: '/blogs/queryAll',
+    url: '/api/blogs/queryAll',
     method: 'get',
     params
   })
 }
 export function getOneArticle(id) {
   return request({
-    url: `/rest/articles/${id}`,
+    url: `/api/blogs/${id}`,
     method: 'get',
   })
 }
-export function editOneArticle(id, data) {
+export function editOneArticle(data) {
   return request({
-    url: `/rest/articles/${id}`,
+    url: `/api/blogs`,
     method: 'put',
     data
   })
 }
 export function deleteOneArticle(id) {
   return request({
-    url: `/rest/articles`,
+    url: `/api/blogs`,
     method: 'delete',
     data: id
   })

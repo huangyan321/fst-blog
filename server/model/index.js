@@ -22,6 +22,7 @@ module.exports = class Model {
 							resolve(res)
 						}
 					})
+          connection.release();
 				}
 			})
 		})
