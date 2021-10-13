@@ -154,6 +154,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			res.send(Tips[1008])
 		}
 	}
+	//TODO 待验证
 	//发布博客
 	static async changeBlogPublicStatus(req, res) {
 		console.log("进来了");
