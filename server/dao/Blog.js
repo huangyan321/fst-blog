@@ -157,12 +157,12 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 	//发布博客
 	static async changeBlogPublicStatus(req, res) {
 		console.log("进来了");
-		const data = Utils.filter(req.body, ['id', 'publish']);
+		const data = Utils.filter(req.body, ['blog_id', 'publish']);
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
 		const result = Utils.formatData(data, [{
-				key: 'id',
+				key: 'blog_id',
 				type: 'number'
 			},
 			{
@@ -176,12 +176,12 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			})
 		}
 		const {
-			id,
+			blog_id,
 			publish
 		} = data;
 		const update_time = Utils.getDate19();
 		try {
-			await this.editField("t_blog", ['publish'], ["uid", "id"], publish, uid, id)
+			await this.editField("t_blog", ['publish'], ["uid", "blog_id"], publish, uid, blog_id)
 			res.send(Tips[0])
 		} catch (err) {
 			console.log(err);
@@ -190,12 +190,12 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 	}
 	//查询博客详情
 	static async queryOne(req, res) {
-		const data = Utils.filter(req.query, ['id']);
+		const data = Utils.filter(req.query, ['blog_id']);
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
 		const result = Utils.formatData(data, [{
-			key: 'id',
+			key: 'blog_id',
 			type: 'number'
 		}]);
 		if (!result) {
@@ -208,7 +208,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 		} = data;
 		id = parseInt(id);
 		try {
-			const queryRes = await this.queryOneOfField("t_blog", ['title', 'content', 'note_id', 'id', 'brief', 'publish', 'create_time', 'update_time'], ["id", "is_delete"], id, 0)
+			const queryRes = await this.queryOneOfField("t_blog", ['title', 'content', 'tag_id', 'blog_id', 'brief', 'publish', 'create_time', 'update_time'], ["blog_id", "is_delete"], blog_id, 0)
 			res.send({
 				...Tips[0],
 				queryRes: queryRes[0]
