@@ -96,16 +96,17 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 	}
 	//修改
 	static async edit(req, res) {
-		const data = Utils.filter(req.body, ['title', 'content', 'note_id', 'id', 'brief', 'publish']);
+		const data = Utils.filter(req.body, ['title', 'content', 'tags', 'blog_id', 'brief', 'publish']);
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
+		console.log(data);
 		const result = Utils.formatData(data, [{
-				key: 'note_id',
-				type: 'number'
+				key: 'tags',
+				type: 'string'
 			},
 			{
-				key: 'id',
+				key: 'blog_id',
 				type: 'number'
 			},
 			{
@@ -133,18 +134,23 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 		let {
 			title,
 			content,
-			note_id,
-			id,
+			tags,
+			blog_id,
 			brief,
 			publish = 0,
 			update_time = ''
 		} = data;
-		id = Number(id)
+		tags = tags.split(',');
+		blog_id = Number(blog_id);
 		update_time = Utils.getDate19();
 		try {
-			await this.editField("t_blog ", ['title', 'content', 'note_id', 'brief', 'publish', 'update_time'], ["id", "uid"], title, content, note_id, brief, publish, update_time, id, uid)
+			await this.editField("t_blog ", ['title', 'content', 'brief', 'publish', 'update_time'], ["blog_id", "uid"], title, content, brief, publish, update_time, blog_id, uid)
+			for (let i = 0; i < tags.length; i++) {
+				await this.addField("t_tag", ['name', 'blog_id', 'create_time', 'update_time', 'uid'], tags[i], blog_id, update_time, update_time, uid)
+			}
 			res.send(Tips[0])
 		} catch (err) {
+			console.log(err);
 			res.send(Tips[1008])
 		}
 	}
