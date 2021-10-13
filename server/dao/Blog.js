@@ -57,6 +57,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			], title, content, note_id, brief, publish, uid, create_time)
 			res.send(Tips[0])
 		} catch (err) {
+      console.log(err);
 			res.send(Tips[1008])
 		}
 	}
@@ -87,6 +88,8 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			await this.deleteField("t_blog", ["id", "uid"], id, uid)
 			res.send(Tips[0])
 		} catch (err) {
+      console.log(err);
+
 			res.send(Tips[1008])
 		}
 	}
@@ -141,6 +144,8 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			await this.editField("t_blog ", ['title', 'content', 'note_id', 'brief', 'publish', 'update_time'], ["id", "uid"], title, content, note_id, brief, publish, update_time, id, uid)
 			res.send(Tips[0])
 		} catch (err) {
+      console.log(err);
+
 			res.send(Tips[1008])
 		}
 	}
@@ -204,12 +209,14 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 				queryRes: queryRes[0]
 			})
 		} catch (err) {
+      console.log(err);
+
 			res.send(Tips[1008])
 		}
 	}
 	//查询所有博客(type：0所有 type：1根据笔记本查询)
 	static async queryByType(req, res) {
-		const data = Utils.filter(req.query, ['pageSize', 'pageNum', 'note_id', 'type'])
+		const data = Utils.filter(req.query, ['pageSize', 'pageNum', 'type'])
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
@@ -223,7 +230,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			})
 		}
 		let {
-			pageSize = 10, pageNum = 1, type = 0, note_id
+			pageSize = 10, pageNum = 1, type = 0,
 		} = data
 		pageSize = Number(pageSize);
 		pageNum = Number(pageNum);
@@ -235,7 +242,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 
 			if (type == 1) {
 				const count = await this.querySumOfField("t_blog", ["uid", "is_delete"], uid, 0)
-				const list = await this.QueryFieldByPage("t_blog", ['title', 'content', 'note_id', 'id', 'brief', 'publish', 'create_time', 'update_time'], "create_time", ["uid", "note_id", "is_delete"], offset, pageSize, uid, note_id, 0)
+				const list = await this.QueryFieldByPage("t_blog", ['title', 'content', 'id', 'brief', 'publish', 'create_time', 'update_time'], "create_time", ["uid", "is_delete"], offset, pageSize, uid,  0)
 				res.send({
 					...Tips[0],
 					total: count[0]["count(1)"],
@@ -246,6 +253,13 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			} else {
 				const count = await this.querySumOfField("t_blog", ["uid", "is_delete"], uid, 0)
 				const list = await this.QueryFieldByPage("t_blog", ['title', 'content', 'note_id', 'id', 'brief', 'publish', 'create_time', 'update_time'], "create_time", ["uid", "is_delete"], offset, pageSize, uid, 0)
+        console.log({
+					...Tips[0],
+					total: count[0]["count(1)"],
+					data: list,
+					pageNum,
+					pageSize
+				});
 				res.send({
 					...Tips[0],
 					total: count[0]["count(1)"],
