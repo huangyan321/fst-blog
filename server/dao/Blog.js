@@ -56,7 +56,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 				'brief', 'uid',
 			], title, content, create_time, create_time, publish, brief, uid)
 			for (let i = 0; i < tags.length; i++) {
-				await this.addField("t_tag", ['name', 'blog_id', 'create_time', 'update_time'], tags[i], insertId, create_time, create_time)
+				await this.addField("t_tag", ['name', 'blog_id', 'create_time', 'update_time', 'uid'], tags[i], insertId, create_time, create_time, uid)
 			}
 			res.send(Tips[0])
 		} catch (err) {
@@ -65,7 +65,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 	}
 	//删除博客
 	static async delete(req, res) {
-		const data = Utils.filter(req.body, ['id']);
+		const data = Utils.filter(req.body, ['blog_id']);
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
@@ -75,7 +75,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			})
 		}
 		let result = Utils.formatData(data, [{
-			key: 'id',
+			key: 'blog_id',
 			type: 'number'
 		}]);
 		if (!result) {
@@ -84,10 +84,11 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			})
 		}
 		const {
-			id
+			blog_id
 		} = data
 		try {
-			await this.deleteField("t_blog", ["id", "uid"], id, uid)
+			await this.deleteField("t_blog", ["blog_id", "uid"], blog_id, uid)
+			await this.deleteField("t_tag", ["blog_id", "uid"], blog_id, uid)
 			res.send(Tips[0])
 		} catch (err) {
 			res.send(Tips[1008])
