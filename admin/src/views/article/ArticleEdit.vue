@@ -5,14 +5,16 @@
         <el-col :span="12">
           <h1>{{ id ? "编辑" : "创建" }}文章</h1>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" push="10">
           <el-button
+          size=""
             type="primary"
             @click.stop.prevent="save"
             style="margin-top: 20px"
             :loading="loading"
           >
             保存
+            <i class="el-icon-upload el-icon--right"></i>
           </el-button>
         </el-col>
       </el-row>
@@ -21,19 +23,23 @@
           <el-input v-model="articleInfo.title"></el-input>
         </el-form-item>
         <el-form-item label="添加标签" prop="tags">
-          <el-input
-            placeholder="按下回车添加标签"
-            v-model="curTagName"
-            @keyup.enter.native="AddTag"
-          ></el-input>
-          <el-tag
-            v-for="tag in articleInfo.tags"
-            :key="tag"
-            closable
-            @close="handleTagClose(tag)"
-          >
-            {{ tag }}
-          </el-tag>
+          <div class="addTagInput">
+            <el-input
+              placeholder="按下回车添加标签"
+              v-model="curTagName"
+              @keyup.enter.native="AddTag"
+            ></el-input>
+          </div>
+          <div class="tag">
+            <el-tag
+              v-for="tag in articleInfo.tags"
+              :key="tag"
+              closable
+              @close="handleTagClose(tag)"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
         </el-form-item>
         <el-form-item prop="editText">
           <Markdown v-model="articleInfo.editText" />
@@ -121,18 +127,26 @@ export default {
       });
     },
     AddTag() {
-      console.log("asdasd");
-      this.articleInfo.tags.push({ name: this.curTagName, type: "" });
+      this.articleInfo.tags.push(this.curTagName);
     },
     handleTagClose(v) {
-
       this.articleInfo.tags.splice(this.articleInfo.tags.indexOf(v), 1);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
+.title {
+  padding: 0 0.5rem;
+}
+.tag {
+  width: 40%;
+  margin-top: 0.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
 .el-tag {
-  margin-top: 0.5rem;
+  margin-right: 0.1rem;
 }
 </style>
