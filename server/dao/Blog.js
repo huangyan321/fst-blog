@@ -8,7 +8,7 @@ const {
 module.exports = class Blog_dao extends require('../model/common/curd') {
 	//新增博客
 	static async add(req, res) {
-		const data = Utils.filter(req.body, ['title', 'content', 'note_id', 'brief', 'publish']);
+		const data = Utils.filter(req.body, ['title', 'content', 'tags', 'brief', 'publish']);
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
@@ -17,13 +17,10 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 				...Tips[1005]
 			})
 		}
-		let {
-			name
-		} = data;
 		//字段校验
 		const result = Utils.formatData(data, [{
-				key: 'note_id',
-				type: 'number'
+				key: 'tags',
+				type: 'string'
 			},
 			{
 				key: 'title',
@@ -48,13 +45,19 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			})
 		}
 		let {
-			title = '无标题', content = '', note_id = '', brief = '', publish = 0, create_time = ''
+			title = '无标题', content = '', tags = '', brief = '', publish = 0, create_time = ''
 		} = data;
+		tags = tags.split(',');
 		create_time = Utils.getDate19();
 		try {
-			await this.addField("t_blog", ['title', 'content',
-				'note_id', 'brief', 'publish', 'uid', 'create_time'
-			], title, content, note_id, brief, publish, uid, create_time)
+			let {
+				insertId
+			} = await this.addField("t_blog", ['title', 'content', 'create_time', 'update_time', 'publish',
+				'brief', 'uid',
+			], title, content, create_time, create_time, publish, brief, uid)
+			for (let i = 0; i < tags.length; i++) {
+				await this.addField("t_tag", ['name', 'blog_id', 'create_time', 'update_time'], tags[i], insertId, create_time, create_time)
+			}
 			res.send(Tips[0])
 		} catch (err) {
 			res.send(Tips[1008])
@@ -207,9 +210,9 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			res.send(Tips[1008])
 		}
 	}
-	//查询所有博客(type：0所有 type：1根据笔记本查询)
+	//查询所有博客(type：0所有 type：1根据标签查询)
 	static async queryByType(req, res) {
-		const data = Utils.filter(req.query, ['pageSize', 'pageNum', 'note_id', 'type'])
+		const data = Utils.filter(req.query, ['pageSize', 'pageNum', 'tag_id', 'type'])
 		const {
 			uid
 		} = await Jwt.verifysync(req.headers.authorization, global.globalkey);
