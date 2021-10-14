@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 15/10/2021 01:24:18
+ Date: 15/10/2021 01:31:48
 */
 
 SET NAMES utf8mb4;
@@ -81,6 +81,7 @@ CREATE TABLE `t_tag`  (
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `blog_id` int(0) NOT NULL COMMENT '博客id',
   `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `is_delete` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`tag_id`) USING BTREE,
   UNIQUE INDEX `blog_id`(`blog_id`, `name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -88,15 +89,15 @@ CREATE TABLE `t_tag`  (
 -- ----------------------------
 -- Records of t_tag
 -- ----------------------------
-INSERT INTO `t_tag` VALUES (159, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, 'vuejs');
-INSERT INTO `t_tag` VALUES (160, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, 'javascript');
-INSERT INTO `t_tag` VALUES (161, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, '哈哈哈');
-INSERT INTO `t_tag` VALUES (162, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, 'vuejs');
-INSERT INTO `t_tag` VALUES (163, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, 'javascript');
-INSERT INTO `t_tag` VALUES (164, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, '哈哈哈');
-INSERT INTO `t_tag` VALUES (200, 1, '2021-10-15 01:22:40', '2021-10-15 01:22:40', 2, 'vue');
-INSERT INTO `t_tag` VALUES (201, 1, '2021-10-15 01:23:37', '2021-10-15 01:23:37', 3, 'vue');
-INSERT INTO `t_tag` VALUES (203, 1, '2021-10-15 01:23:56', '2021-10-15 01:23:56', 3, 'javascript');
+INSERT INTO `t_tag` VALUES (159, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, 'vuejs', '');
+INSERT INTO `t_tag` VALUES (160, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, 'javascript', '');
+INSERT INTO `t_tag` VALUES (161, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, '哈哈哈', '');
+INSERT INTO `t_tag` VALUES (162, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, 'vuejs', '');
+INSERT INTO `t_tag` VALUES (163, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, 'javascript', '');
+INSERT INTO `t_tag` VALUES (164, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, '哈哈哈', '');
+INSERT INTO `t_tag` VALUES (200, 1, '2021-10-15 01:22:40', '2021-10-15 01:22:40', 2, 'vue', '');
+INSERT INTO `t_tag` VALUES (201, 1, '2021-10-15 01:23:37', '2021-10-15 01:23:37', 3, 'vue', '');
+INSERT INTO `t_tag` VALUES (203, 1, '2021-10-15 01:23:56', '2021-10-15 01:23:56', 3, 'javascript', '');
 
 -- ----------------------------
 -- Table structure for t_user
