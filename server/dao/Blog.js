@@ -182,8 +182,10 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 		} = data;
 		const update_time = Utils.getDate19();
 		try {
-			await this.editField("t_blog", ['publish'], ["uid", "blog_id"], publish, uid, blog_id)
-			res.send(Tips[0])
+			let {
+				changedRows
+			} = await this.editField("t_blog", ['publish'], ["uid", "blog_id"], publish, uid, blog_id);
+			changedRows ? res.send(Tips[0]) : res.send(Tips[1011])
 		} catch (err) {
 			console.log(err);
 			res.send(Tips[1008])
@@ -205,16 +207,21 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
 			})
 		}
 		let {
-			id
+			blog_id
 		} = data;
-		id = parseInt(id);
+		blog_id = parseInt(blog_id);
 		try {
-			const queryRes = await this.queryOneOfField("t_blog", ['title', 'content', 'tag_id', 'blog_id', 'brief', 'publish', 'create_time', 'update_time'], ["blog_id", "is_delete"], blog_id, 0)
+			const queryRes = await this.queryOneOfField("t_blog", ['title', 'content', 'blog_id', 'brief', 'publish', 'create_time', 'update_time'], ["blog_id", "is_delete"], blog_id, 0)
+			const queryTags = await this.queryOneOfField("t_tag", ['name'], ["blog_id", "is_delete"], blog_id, 0);
 			res.send({
 				...Tips[0],
-				queryRes: queryRes[0]
+				data: {
+					...queryRes[0],
+					tags: queryTags
+				}
 			})
 		} catch (err) {
+			console.log(err);
 			res.send(Tips[1008])
 		}
 	}
