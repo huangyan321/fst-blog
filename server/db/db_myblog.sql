@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 13/10/2021 23:55:15
+ Date: 15/10/2021 01:24:18
 */
 
 SET NAMES utf8mb4;
@@ -33,14 +33,14 @@ CREATE TABLE `t_blog`  (
   `is_delete` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除',
   `ext_info` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`blog_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_blog
 -- ----------------------------
-INSERT INTO `t_blog` VALUES (1, '我是改了tags后的title哦', 1, '我是内容哦', '2021-10-09 15:09:37', '2021-10-13 23:48:13', 1, '啊实打实', 1, '这是额外的信息');
-INSERT INTO `t_blog` VALUES (2, '这是一个标题', 1, '这是一个内容', '2021-10-09 15:24:22', '2021-10-13 22:30:25', 0, '这是一个简介', 0, '这是额外的信息');
-INSERT INTO `t_blog` VALUES (3, '这是一个标题', 1, '这是一个内容', '2021-10-09 15:24:39', '2021-10-13 22:30:28', 1, '这是一个简介', 0, '这是额外的信息');
+INSERT INTO `t_blog` VALUES (1, 'asdasd', 1, 'asdasd', '2021-10-09 15:09:37', '2021-10-15 00:51:57', 0, 'asdaasd', 1, '这是额外的信息');
+INSERT INTO `t_blog` VALUES (2, 'asdasd', 1, 'asdasd', '2021-10-09 15:24:22', '2021-10-15 01:22:40', 0, 'asdaasd', 0, '这是额外的信息');
+INSERT INTO `t_blog` VALUES (3, 'asdasd', 1, 'asdasd', '2021-10-09 15:24:39', '2021-10-15 01:23:56', 0, 'asdaasd', 0, '这是额外的信息');
 INSERT INTO `t_blog` VALUES (4, '这是一个标题', 1, '这是一个内容', '2021-10-09 17:59:27', '2021-10-13 22:30:30', 1, '这是一个简介', 0, '这是额外的信息');
 INSERT INTO `t_blog` VALUES (5, '这是一个标题', 1, '这是一个内容', '2021-10-12 23:21:55', '2021-10-13 22:30:38', 1, '这是一个简介', 0, '这是额外的信息');
 INSERT INTO `t_blog` VALUES (6, '这是一个标题', 1, '这是一个内容', '2021-10-12 23:21:55', '2021-10-13 22:27:46', 1, '这是一个简介', 0, '这是额外的信息');
@@ -48,6 +48,7 @@ INSERT INTO `t_blog` VALUES (9, '21321312', 1, 'neirong', '2021-10-13 23:08:29',
 INSERT INTO `t_blog` VALUES (10, '21321312', 1, 'neirong', '2021-10-13 23:11:28', '2021-10-13 23:11:28', 1, '12312', 0, NULL);
 INSERT INTO `t_blog` VALUES (11, '21321312', 1, 'neirong', '2021-10-13 23:28:18', '2021-10-13 23:28:18', 1, '12312', 0, NULL);
 INSERT INTO `t_blog` VALUES (12, '21321312', 1, 'neirong', '2021-10-13 23:28:37', '2021-10-13 23:34:28', 1, '12312', 1, NULL);
+INSERT INTO `t_blog` VALUES (13, 'asdasd', 1, 'asdasd', '2021-10-15 00:52:45', '2021-10-15 00:52:45', 0, 'asdaasd', 0, NULL);
 
 -- ----------------------------
 -- Table structure for t_img
@@ -75,30 +76,27 @@ INSERT INTO `t_img` VALUES (1, 1, 'swiper1.jpeg', 'http://127.0.0.1:3000/static/
 DROP TABLE IF EXISTS `t_tag`;
 CREATE TABLE `t_tag`  (
   `tag_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标签名',
   `uid` int(0) NOT NULL COMMENT 'uid',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `is_delete` tinyint(1) NULL DEFAULT 0,
-  `blog_id` int(0) NULL DEFAULT NULL COMMENT '博客id',
+  `blog_id` int(0) NOT NULL COMMENT '博客id',
+  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`tag_id`) USING BTREE,
-  UNIQUE INDEX `name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `blog_id`(`blog_id`, `name`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_tag
 -- ----------------------------
-INSERT INTO `t_tag` VALUES (100, 'vuejs', 1, '2021-10-08 17:35:03', '2021-10-13 23:42:52', 0, 1);
-INSERT INTO `t_tag` VALUES (101, 'javascript', 1, '2021-10-09 14:51:57', '2021-10-13 23:42:55', 0, 1);
-INSERT INTO `t_tag` VALUES (102, 'html', 1, '2021-10-09 14:57:01', '2021-10-13 23:42:55', 0, 1);
-INSERT INTO `t_tag` VALUES (103, 'css', 1, '2021-10-09 15:03:20', '2021-10-13 23:42:56', 0, 1);
-INSERT INTO `t_tag` VALUES (104, 'reactjs', 1, '2021-10-09 15:04:20', '2021-10-13 23:42:56', 0, 1);
-INSERT INTO `t_tag` VALUES (105, 'nodejs', 1, '2021-10-13 22:25:18', '2021-10-13 22:43:10', 0, 2);
-INSERT INTO `t_tag` VALUES (111, '啊实打实的', 1, '2021-10-13 23:28:37', '2021-10-13 23:42:58', 0, 12);
-INSERT INTO `t_tag` VALUES (112, '你好', 1, '2021-10-13 23:47:29', '2021-10-13 23:47:29', 0, 1);
-INSERT INTO `t_tag` VALUES (113, '我叫', 1, '2021-10-13 23:47:29', '2021-10-13 23:47:29', 0, 1);
-INSERT INTO `t_tag` VALUES (114, '撒打算', 1, '2021-10-13 23:47:29', '2021-10-13 23:47:29', 0, 1);
-INSERT INTO `t_tag` VALUES (123, 'js', 1, '2021-10-13 23:48:13', '2021-10-13 23:48:13', 0, 1);
+INSERT INTO `t_tag` VALUES (159, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, 'vuejs');
+INSERT INTO `t_tag` VALUES (160, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, 'javascript');
+INSERT INTO `t_tag` VALUES (161, 1, '2021-10-15 00:48:49', '2021-10-15 00:48:49', 1, '哈哈哈');
+INSERT INTO `t_tag` VALUES (162, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, 'vuejs');
+INSERT INTO `t_tag` VALUES (163, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, 'javascript');
+INSERT INTO `t_tag` VALUES (164, 1, '2021-10-15 00:49:03', '2021-10-15 00:49:03', 2, '哈哈哈');
+INSERT INTO `t_tag` VALUES (200, 1, '2021-10-15 01:22:40', '2021-10-15 01:22:40', 2, 'vue');
+INSERT INTO `t_tag` VALUES (201, 1, '2021-10-15 01:23:37', '2021-10-15 01:23:37', 3, 'vue');
+INSERT INTO `t_tag` VALUES (203, 1, '2021-10-15 01:23:56', '2021-10-15 01:23:56', 3, 'javascript');
 
 -- ----------------------------
 -- Table structure for t_user
