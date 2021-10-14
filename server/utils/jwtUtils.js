@@ -7,18 +7,18 @@ const jwt = require("jsonwebtoken");
  * @param success
  * @param error
  */
-function verify (token,secretkey,success,error){
-    jwt.verify(token,secretkey,function(err,decode){
-        if(err){
-            if (error) {
-                error(err);
-            }
-        }else{
-            if (success) {
-                success(decode);
-            }
-        }
-    })
+function verify(token, secretkey, success, error) {
+  jwt.verify(token, secretkey, function (err, decode) {
+    if (err) {
+      if (error) {
+        error(err);
+      }
+    } else {
+      if (success) {
+        success(decode);
+      }
+    }
+  });
 }
 
 /**
@@ -28,9 +28,9 @@ function verify (token,secretkey,success,error){
  * @param expiresIn 过期时间 秒
  * @returns {number | PromiseLike<ArrayBuffer>}
  */
-function sign (load,secretkey,expiresIn) {
-    var token = jwt.sign(load,secretkey,{expiresIn: expiresIn});
-    return token;
+function sign(load, secretkey, expiresIn) {
+  var token = jwt.sign(load, secretkey, { expiresIn: expiresIn });
+  return token;
 }
 
 /**异步转同步
@@ -39,24 +39,21 @@ function sign (load,secretkey,expiresIn) {
  * @param secretkey
  * @returns {Promise<any>}
  */
- function   verifysync (token,secretkey){
-    return   new Promise((resolve,reject)=>{
-        jwt.verify(token,secretkey,function(err,decode){
-            if (err) {
-                console.log(err.message);
-                resolve({err:'error',msg:'会话已过期'})
-            }else{
-                console.log("解密成功")
-                resolve(decode)
-            }
-        })
-
-    })
-
+function verifysync(token, secretkey) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, secretkey, function (err, decode) {
+      if (err) {
+        console.log(err.message);
+        resolve({ err: "error", msg: "会话已过期" });
+      } else {
+        console.log("解密成功");
+        resolve(decode);
+      }
+    });
+  });
 }
 
-module.exports = {verify,sign,verifysync};
-
+module.exports = { verify, sign, verifysync };
 
 /*//使用解密
 let user={id:111,name:'user',password:123456};
@@ -73,7 +70,6 @@ verify(token,"123456",function (user) {
     }
 )
 console.log(token);*/
-
 
 /*verify(token,'123456',function (user) {
     console.log(user)
