@@ -142,6 +142,11 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       req.headers.authorization,
       global.globalkey
     );
+    if (!uid) {
+      return res.send({
+        ...Tips[1005],
+      });
+    }
     console.log(data);
     const result = Utils.formatData(data, [
       {
@@ -225,6 +230,11 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       req.headers.authorization,
       global.globalkey
     );
+    if (!uid) {
+      return res.send({
+        ...Tips[1005],
+      });
+    }
     const result = Utils.formatData(data, [
       {
         key: "blog_id",
@@ -264,6 +274,11 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       req.headers.authorization,
       global.globalkey
     );
+    if (!uid) {
+      return res.send({
+        ...Tips[1005],
+      });
+    }
     const result = Utils.formatData(data, [
       {
         key: "blog_id",
@@ -324,6 +339,11 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       req.headers.authorization,
       global.globalkey
     );
+    if (!uid) {
+      return res.send({
+        ...Tips[1005],
+      });
+    }
     const result = Utils.formatData(data, [
       {
         key: "type",
