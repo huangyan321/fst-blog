@@ -1,35 +1,37 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 
 export function addAdmin(data) {
   return request({
-    url: '/rest/admins',
-    method: 'post',
+    url: "/api/users",
+    method: "post",
     data
-  })
+  });
 }
 export function getAdminList(params) {
   return request({
-    url: '/rest/admins',
-    method: 'get',
+    url: "/api/users/queryAll",
+    method: "get",
     params
-  })
+  });
 }
-export function getOneAdmin(id) {
+export function getOneAdmin(params) {
   return request({
-    url: `/rest/admins/${id}`,
-    method: 'get',
-  })
+    url: `/api/users/query`,
+    method: "get",
+    params
+  });
 }
-export function editOneAdmin(id, data) {
+export function editOneAdmin(data) {
   return request({
-    url: `/rest/admins/${id}`,
-    method: 'put',
+    url: `/api/users`,
+    method: "put",
     data
-  })
+  });
 }
 export function deleteOneAdmin(id) {
   return request({
-    url: `/rest/admins/${id}`,
-    method: 'delete',
-  })
+    url: `/api/users`,
+    method: "delete",
+    data: id
+  });
 }
