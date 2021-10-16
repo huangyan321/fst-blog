@@ -1,6 +1,6 @@
 module.exports = {
   0: {
-    code: 0,
+    code: 200,
     msg: "ok!",
   },
   1002: {
