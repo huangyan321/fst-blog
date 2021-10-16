@@ -3,15 +3,15 @@
     <!-- 用户列表区域 -->
     <template>
       <el-table :data="adminList" style="width: 100%" stripe border>
-        <el-table-column label="序号" prop="_id" />
-        <el-table-column label="用户名" prop="username" />
+        <el-table-column label="序号" prop="uid" />
+        <el-table-column label="用户名" prop="name" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
               type="primary"
               size="mini"
               :loading="loading"
-              @click="$router.push(`/admin/edit/${scope.row._id}`)"
+              @click="$router.push(`/admin/edit/${scope.row.uid}`)"
             >
               修改
             </el-button>
@@ -46,7 +46,7 @@ export default {
       adminList: [],
       loading: false,
       queryInfo: {
-        currPage: 1,
+        pageNum: 1,
         pageSize: 10,
       },
       total: 0,
@@ -58,23 +58,27 @@ export default {
   mounted() {},
   methods: {
     async getList() {
-      let res = await getAdminList(this.queryInfo);
-      this.adminList = res.data;
-      this.total = res.total;
+      const res = await getAdminList(this.queryInfo);
+      res.code == 200
+        ? (() => {
+            this.adminList = res.data;
+            this.total = res.total;
+          })()
+        : this.$notify.error(res.msg);
     },
     remove(row) {
       this.loading = true;
-      this.$confirm(`是否确定删除分类${row.name}`, "提示", {
+      this.$confirm(`是否确定删除用户${row.name}`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(async () => {
-        const res = await deleteOneAdmin(row._id);
-        res.success
+        const res = await deleteOneAdmin({ user_id: row.uid });
+        res.code == 200
           ? (() => {
               this.$notify.success("删除成功");
               this.getList();
             })()
-          : this.$notify.error("删除失败");
+          : this.$notify.error(res.msg);
       });
       this.loading = false;
     },
