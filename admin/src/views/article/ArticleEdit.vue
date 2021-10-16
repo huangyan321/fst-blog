@@ -5,9 +5,8 @@
         <el-col :span="12">
           <h1>{{ id ? "编辑" : "创建" }}文章</h1>
         </el-col>
-        <el-col :span="12" push="10">
+        <el-col :span="12" :push="5">
           <el-button
-          size=""
             type="primary"
             @click.stop.prevent="save"
             style="margin-top: 20px"
@@ -19,6 +18,16 @@
         </el-col>
       </el-row>
       <el-form ref="articleInfo" :model="articleInfo" :rules="rules">
+        <el-form-item>
+          <el-switch
+            v-model="articleInfo.publish"
+            active-value="1"
+            inactive-value="0"
+            active-text="发布"
+            inactive-text="暂存"
+          >
+          </el-switch>
+        </el-form-item>
         <el-form-item label="文章标题" prop="title">
           <el-input v-model="articleInfo.title"></el-input>
         </el-form-item>
@@ -32,17 +41,20 @@
           </div>
           <div class="tag">
             <el-tag
-              v-for="tag in articleInfo.tags"
-              :key="tag"
+              v-for="(tag, index) in articleInfo.tags"
+              :key="index"
               closable
               @close="handleTagClose(tag)"
             >
-              {{ tag }}
+              {{ tag.name }}
             </el-tag>
           </div>
         </el-form-item>
-        <el-form-item prop="editText">
-          <Markdown v-model="articleInfo.editText" />
+        <el-form-item label="简介" prop="title">
+          <el-input v-model="articleInfo.brief"></el-input>
+        </el-form-item>
+        <el-form-item prop="content">
+          <Markdown v-model="articleInfo.content" />
         </el-form-item>
       </el-form>
     </div>
@@ -61,25 +73,15 @@ export default {
       type: String,
     },
   },
-  watch: {
-    articleInfo: {
-      deep: true,
-      handler(nv) {
-        console.log(nv.editText);
-      },
-    },
-  },
   created() {
     this.id ? this.getArticle() : "";
-    // this.getCategoryList();
   },
   data() {
     return {
       newsList: [],
       articleInfo: {
-        title: "",
-        editText: "",
-        tags: ["标签一", "标签二", "标签三"],
+        tags: [],
+        publish: false,
       },
       rules: {
         name: [
@@ -102,23 +104,26 @@ export default {
       this.$refs.articleInfo.validate(async (valid) => {
         if (!valid) return;
         this.loading = true;
+        console.log(this.articleInfo);
         if (this.id) {
-          var res = await editOneArticle(this.id, this.articleInfo);
+          var res = await editOneArticle(this.articleInfo);
         } else {
           var res = await addArticle(this.articleInfo);
         }
-        res
+        res.code == 200
           ? (() => {
               this.$notify.success("请求成功");
               this.$router.replace("/article/list");
             })()
-          : this.$notify.err("请求失败");
+          : this.$notify.error(res.msg);
         this.loading = false;
       });
     },
     async getArticle() {
-      let res = await getOneArticle(this.id);
-      this.articleInfo = res;
+      let res = await getOneArticle({ blog_id: this.id });
+
+      this.articleInfo = res.data;
+      console.log(res);
     },
     async getCategoryList() {
       const { data } = await getCategoryList();
@@ -127,7 +132,8 @@ export default {
       });
     },
     AddTag() {
-      this.articleInfo.tags.push(this.curTagName);
+      this.articleInfo.tags.push({ name: this.curTagName });
+      this.curTagName = "";
     },
     handleTagClose(v) {
       this.articleInfo.tags.splice(this.articleInfo.tags.indexOf(v), 1);
