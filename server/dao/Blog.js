@@ -8,10 +8,10 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
   static async add(req, res) {
     const data = Utils.filter(req.body, [
       "title",
+      "publish",
       "content",
       "tags",
       "brief",
-      "publish",
     ]);
     const { uid } = await Jwt.verifysync(
       req.headers.authorization,
@@ -22,11 +22,12 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
         ...Tips[1005],
       });
     }
+    console.log(data);
     //字段校验
     const result = Utils.formatData(data, [
       {
         key: "tags",
-        type: "string",
+        type: "array",
       },
       {
         key: "title",
@@ -42,7 +43,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       },
       {
         key: "publish",
-        type: "number",
+        type: "string",
       },
     ]);
     if (!result) {
@@ -58,7 +59,6 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       publish = 0,
       create_time = "",
     } = data;
-    tags = tags.split(",");
     create_time = Utils.getDate19();
     try {
       let { insertId } = await this.addField(
@@ -84,7 +84,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
         await this.addField(
           "t_tag",
           ["name", "blog_id", "create_time", "update_time", "uid"],
-          tags[i],
+          tags[i].name,
           insertId,
           create_time,
           create_time,
@@ -130,6 +130,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
   }
   //修改
   static async edit(req, res) {
+    console.log("修改");
     const data = Utils.filter(req.body, [
       "title",
       "content",
@@ -151,7 +152,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
     const result = Utils.formatData(data, [
       {
         key: "tags",
-        type: "string",
+        type: "array",
       },
       {
         key: "blog_id",
@@ -171,7 +172,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       },
       {
         key: "publish",
-        type: "number",
+        type: "string",
       },
     ]);
     if (!result) {
@@ -188,7 +189,6 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       publish = 0,
       update_time = "",
     } = data;
-    tags = tags.split(",");
     blog_id = Number(blog_id);
     update_time = Utils.getDate19();
     try {
@@ -208,7 +208,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
         await this.addField(
           "t_tag",
           ["name", "blog_id", "create_time", "update_time", "uid"],
-          tags[i],
+          tags[i].name,
           blog_id,
           update_time,
           update_time,
@@ -242,7 +242,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       },
       {
         key: "publish",
-        type: "number",
+        type: "string",
       },
     ]);
     if (!result) {
@@ -327,7 +327,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
       res.send(Tips[1008]);
     }
   }
-  //查询所有博客(type：0所有 type：1根据标签查询)
+  //查询所有博客(type：0 分页查询 type：1根据标签查询)
   static async queryByType(req, res) {
     const data = Utils.filter(req.query, [
       "pageSize",
@@ -405,16 +405,16 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
         const list = await this.QueryFieldByPage(
           "t_blog",
           [
+            "blog_id",
             "title",
             "content",
-            "note_id",
-            "id",
-            "brief",
-            "publish",
             "create_time",
             "update_time",
+            "publish",
+            "brief",
+            "ext_info"
           ],
-          "create_time",
+          "update_time",
           ["uid", "is_delete"],
           offset,
           pageSize,
