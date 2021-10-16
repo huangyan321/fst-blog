@@ -121,9 +121,12 @@ export default {
     },
     async getArticle() {
       let res = await getOneArticle({ blog_id: this.id });
-
-      this.articleInfo = res.data;
-      console.log(res);
+      res.code == 200
+        ? (() => {
+            this.articleInfo = res.data;
+            console.log(res);
+          })()
+        : this.$notify.error(res.msg);
     },
     async getCategoryList() {
       const { data } = await getCategoryList();
