@@ -8,9 +8,9 @@ module.exports = {
    */
   Add(table, params) {
     if (IS.array(params) && IS.string(table)) {
-      return `INSERT IGNORE INTO ${table}(${params.join(",")}) VALUES(${params
+      return `REPLACE INTO ${table}(${params.join(",")},is_delete) VALUES(${params
         .map(() => "?")
-        .join(",")});`;
+        .join(",")},0);`;
     } else {
       return false;
     }
