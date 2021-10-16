@@ -13,7 +13,7 @@
               type="primary"
               size="mini"
               :loading="loading"
-              @click="$router.push(`/article/edit/${scope.row._id}`)"
+              @click="$router.push(`/article/edit/${scope.row.blog_id}`)"
             >
               修改
             </el-button>
@@ -67,12 +67,12 @@ export default {
     },
     remove(row) {
       this.loading = true;
-      this.$confirm(`是否确定删除文章${row.name}`, "提示", {
+      this.$confirm(`是否确定删除文章${row.title}`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(async () => {
-        const res = await deleteOneArticle(row._id);
-        res.success
+        const res = await deleteOneArticle({ blog_id: row.blog_id });
+        res.code == 200
           ? (() => {
               this.$notify.success("删除成功");
               this.getList();
@@ -82,7 +82,7 @@ export default {
       this.loading = false;
     },
     publishStatus(v) {
-      return v.publish?'已发布':'待发布'
+      return v.publish === "1" ? "已发布" : "待发布";
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
