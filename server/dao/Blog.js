@@ -204,6 +204,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
         blog_id,
         uid
       );
+      await this.deleteField("t_tag", ["blog_id", "uid"], blog_id, uid);
       for (let i = 0; i < tags.length; i++) {
         await this.addField(
           "t_tag",
@@ -412,7 +413,7 @@ module.exports = class Blog_dao extends require("../model/common/curd") {
             "update_time",
             "publish",
             "brief",
-            "ext_info"
+            "ext_info",
           ],
           "update_time",
           ["uid", "is_delete"],
