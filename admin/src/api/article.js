@@ -1,36 +1,37 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 
 export function addArticle(data) {
   return request({
-    url: '/api/blogs',
-    method: 'post',
+    url: "/api/blogs",
+    method: "post",
     data
-  })
+  });
 }
 export function getArticleList(params) {
   return request({
-    url: '/api/blogs/queryAll',
-    method: 'get',
+    url: "/api/blogs/queryAll",
+    method: "get",
     params
-  })
+  });
 }
-export function getOneArticle(id) {
+export function getOneArticle(params) {
   return request({
-    url: `/api/blogs/${id}`,
-    method: 'get',
-  })
+    url: "/api/blogs/query",
+    method: "get",
+    params
+  });
 }
 export function editOneArticle(data) {
   return request({
     url: `/api/blogs`,
-    method: 'put',
+    method: "put",
     data
-  })
+  });
 }
 export function deleteOneArticle(id) {
   return request({
     url: `/api/blogs`,
-    method: 'delete',
+    method: "delete",
     data: id
-  })
+  });
 }
