@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {};
@@ -28,9 +28,9 @@ export default {
   },
   mounted() {},
   methods: {
-    closeSideBox() {
-      console.log("closeSideBox");
-    },
+    ...mapMutations("side", {
+      closeSideBox: "CLOSE_SIDE_BOX",
+    }),
   },
 };
 </script>
@@ -61,7 +61,7 @@ export default {
         bottom: 0;
         width: 250px;
         transform: translateX(-250px);
-        transition: transform .3s;
+        transition: transform 0.3s;
         background-color: white;
 
         &--open {
@@ -73,13 +73,13 @@ export default {
 
       &__mask {
         position: fixed;
-        left: 0px;
         top: 60px;
+        left: 250px;
+        right: 0;
         bottom: 0;
-        width: 250px;
-        transform: translateX(-250px);
-        transition: transform 0.3s;
-        background-color: white;
+        display: block;
+        z-index: 1;
+        display: none;
       }
 
       &__mask--show {
