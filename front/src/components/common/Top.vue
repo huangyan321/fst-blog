@@ -13,16 +13,19 @@
   </div>
 </template>
 <script>
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {};
   },
-
+  computed: {
+  },
   mounted() {},
   methods: {
-    toggleSidebox() {
-      this.$store.commit('side/TOGGLE_SIDE_BOX')
-    }
+    //将模块的空间名称字符串作为第一个参数传递
+    ...mapMutations('side',{
+        toggleSidebox: 'TOGGLE_SIDE_BOX'
+    }),
   },
 };
 </script>
