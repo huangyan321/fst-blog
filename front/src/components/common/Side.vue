@@ -6,7 +6,13 @@
       @click="closeSideBox"
     ></div>
     <div class="sideBox__main" :class="{ 'sideBox__main--open': sideBoxOpen }">
-      这里是侧边栏
+      <img
+        src="http://admin.hgyn23.cn/static/img/cat.ea0074ff.jpg"
+        alt=""
+        class="sideBox__img"
+      />
+      <p class="sideBox__name">昵称</p>
+      <p class="sideBox__autograph">签名</p>
     </div>
   </div>
 </template>
@@ -47,6 +53,15 @@ export default {
     margin-top: 10px;
     cursor: pointer;
   }
+
+  &__name {
+    color: $grey-dark;
+    font-size: 20px;
+    margin: 5px 0;
+  }
+  &__autograph
+    color: $grey
+    margin-bottom: 8px
 
   @media screen and (max-width: 850px) {
     .sideBox {

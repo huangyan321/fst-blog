@@ -18,13 +18,12 @@ export default {
   data() {
     return {};
   },
-  computed: {
-  },
+  computed: {},
   mounted() {},
   methods: {
     //将模块的空间名称字符串作为第一个参数传递
-    ...mapMutations('side',{
-        toggleSidebox: 'TOGGLE_SIDE_BOX'
+    ...mapMutations("side", {
+      toggleSidebox: "TOGGLE_SIDE_BOX",
     }),
   },
 };
