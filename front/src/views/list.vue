@@ -10,10 +10,17 @@
         <span>vue</span>
         分类
       </li>
+      <template>
+        <li class="list__article__item" v-for="item in 3">
+          <h1 class="list__article__item__title">标题</h1>
+          <div class="list__article__item__info">
+            <div class="list__article__item__time">时间</div>
+            <div class="list__article__item__abstract markdown-body">内容</div>
+          </div>
+        </li>
+      </template>
+      <div class="msg-box">暂时没有相关内容</div>
     </ul>
-    <div>
-      具体内容
-    </div>
   </div>
 </template>
 <script>
@@ -43,10 +50,23 @@ export default {
   &__article
     list-style none
     margin-left 260px
+    &__item
+      margin 0 auto
+      padding 0 10px 10px 10px
+      margin-bottom 15px
+      &__abstract
+        margin-bottom 5px
+      &__title
+        font-size 24px
+      &__time
+        color #7f8c8d
+        font-weight 400
+        margin-bottom 10px
+        margin-top 2px
     &__filter
-      font-size: 20px
-      text-align: center
-      margin-bottom: 20px
+      font-size 20px
+      text-align center
+      margin-bottom 20px
   &__loading
     position fixed
     top 50%
@@ -59,6 +79,26 @@ export default {
   .list
     position relative
     padding-top 85px
+    &__article
+      list-style none
+      margin-left 0
+      &__item
+        margin 0 auto
+        padding 0 10px 10px 10px
+        margin-bottom 15px
+      &__abstract
+        margin-bottom 5px
+      &__title
+        font-size 24px
+      &__time
+        color #7f8c8d
+        font-weight 400
+        margin-bottom 10px
+        margin-top 2px
+    &__filter
+      font-size 20px
+      text-align center
+      margin-bottom 20px
     &__loading
       position absolute
       top 250px
