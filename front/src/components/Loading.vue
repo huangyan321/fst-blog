@@ -1,5 +1,6 @@
 <template>
   <div
+    class="loading"
     v-loading="loading"
     :element-loading-text="text"
     element-loading-spinner="el-icon-loading"
@@ -22,8 +23,11 @@ export default {
 };
 </script>
 
-<style lang="stylus">
-.el-icon-loading:before
+<style lang="stylus" scoped>
+.loading >>> .el-icon-loading:before
   content '\e6cf'
+  color grey !important
   font-size 40px !important
+.loading >>> .el-loading-text
+  color grey !important
 </style>
