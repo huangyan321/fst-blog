@@ -4,6 +4,16 @@
     <div class="list__loading" v-if="showLoading">
       <Loading :text="loadingMsg"></Loading>
     </div>
+    <ul class="list__article">
+      <li class="list__article__filter">
+        筛选
+        <span>vue</span>
+        分类
+      </li>
+    </ul>
+    <div>
+      具体内容
+    </div>
   </div>
 </template>
 <script>
@@ -17,7 +27,7 @@ export default {
   data() {
     return {
       loadingMsg: "疯狂加载中！奥里给干了！！",
-      showLoading: true,
+      showLoading: false,
     };
   },
   mounted() {},
@@ -30,6 +40,13 @@ export default {
   max-width 1000px
   margin 0 auto
   padding-top 85px
+  &__article
+    list-style none
+    margin-left 260px
+    &__filter
+      font-size: 20px
+      text-align: center
+      margin-bottom: 20px
   &__loading
     position fixed
     top 50%
