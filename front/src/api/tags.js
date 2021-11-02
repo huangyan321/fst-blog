@@ -1,8 +1,7 @@
 import { request } from '../utils/request'
-export function queryQcsLogoInfoList(data) {
+export function queryAllTags() {
   return request({
-    url: 'device/commonDevice/queryQcsLogoInfoList',
-    method: 'post',
-    data
+    url: '/admin/api/tags/queryAll',
+    method: 'get',
   })
 }
