@@ -12,13 +12,13 @@
     "core-js": "^3.6.5",
     "css-loader": "^6.4.0",
     "element-ui": "^2.15.6",
-    "eslint": "^8.1.0",
     "eslint-plugin-vue": "^7.20.0",
     "fastclick": "^1.0.6",
     "font-awesome": "^4.7.0",
     "highlight.js": "^11.3.1",
     "marked": "^3.0.8",
     "moment": "^2.29.1",
+    "nprogress": "^0.2.0",
     "postcss-loader": "^6.2.0",
     "rimraf": "^3.0.2",
     "simplemde": "^1.11.2",
@@ -36,6 +36,8 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-plugin-component": "^1.1.1",
+    "eslint": "^8.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "vue-template-compiler": "^2.6.11"
   }
 }
