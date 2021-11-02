@@ -6,22 +6,12 @@
       @click="closeSideBox"
     ></div>
     <div class="sideBox__main" :class="{ 'sideBox__main--open': sideBoxOpen }">
-      <img
-        src="http://admin.hgyn23.cn/static/img/cat.ea0074ff.jpg"
-        alt=""
-        class="sideBox__img"
-      />
+      <img src="http://admin.hgyn23.cn/static/img/cat.ea0074ff.jpg" alt="" class="sideBox__img" />
       <p class="sideBox__name">昵称</p>
       <p class="sideBox__autograph">签名</p>
       <ul class="sideBox__iconList">
-        <li
-          v-for="(icon, idx) in iconList"
-          :key="idx"
-          class="sideBox__iconItem"
-        >
-          <a :href="icon.href"
-            ><i class="iconfont" :class="'icon-' + icon.name"></i
-          ></a>
+        <li v-for="(icon, idx) in iconList" :key="idx" class="sideBox__iconItem">
+          <a :href="icon.href"><i class="iconfont" :class="'icon-' + icon.name"></i></a>
         </li>
       </ul>
       <ul class="sideBox__tagList">
@@ -40,44 +30,44 @@ export default {
       iconList: [
         {
           name: "github",
-          href: "https://github.com/huangyan321",
-        },
+          href: "https://github.com/huangyan321"
+        }
       ],
       tags: [
         {
-          name: "vuejs",
+          name: "vuejs"
         },
         {
-          name: "javascript",
+          name: "javascript"
         },
         {
-          name: "nodejs",
+          name: "nodejs"
         },
         {
-          name: "计算机基础",
+          name: "计算机基础"
         },
         {
-          name: "计算机网络",
-        },
-      ],
+          name: "计算机网络"
+        }
+      ]
     };
   },
   watch: {
     sideBoxOpen: {
       handler(v) {
         console.log(v);
-      },
-    },
+      }
+    }
   },
   computed: {
-    ...mapGetters(["sideBoxOpen"]),
+    ...mapGetters(["sideBoxOpen"])
   },
   mounted() {},
   methods: {
     ...mapMutations("side", {
-      closeSideBox: "CLOSE_SIDE_BOX",
-    }),
-  },
+      closeSideBox: "CLOSE_SIDE_BOX"
+    })
+  }
 };
 </script>
 <style lang="stylus" scoped>

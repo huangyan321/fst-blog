@@ -23,9 +23,9 @@ export default {
   methods: {
     //将模块的空间名称字符串作为第一个参数传递
     ...mapMutations("side", {
-      toggleSidebox: "TOGGLE_SIDE_BOX",
-    }),
-  },
+      toggleSidebox: "TOGGLE_SIDE_BOX"
+    })
+  }
 };
 </script>
 <style lang="stylus" scoped>
