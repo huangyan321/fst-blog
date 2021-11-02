@@ -14,8 +14,11 @@
         <li class="list__article__item" v-for="item in 3">
           <h1 class="list__article__item__title">标题</h1>
           <div class="list__article__item__info">
-            <div class="list__article__item__time">时间</div>
+            <p class="list__article__item__time">时间</p>
             <div class="list__article__item__abstract markdown-body">内容</div>
+            <p>
+              <router-link to="" class="continue-reading">继续阅读...</router-link>
+            </p>
           </div>
         </li>
       </template>
@@ -24,22 +27,22 @@
   </div>
 </template>
 <script>
-import Side from "../components/common/Side.vue";
-import Loading from "../components/Loading.vue";
+import Side from '../components/common/Side'
+import Loading from '../components/Loading'
 export default {
   components: {
     Side,
-    Loading,
+    Loading
   },
   data() {
     return {
-      loadingMsg: "疯狂加载中！奥里给干了！！",
-      showLoading: false,
-    };
+      loadingMsg: '疯狂加载中！奥里给干了！！',
+      showLoading: false
+    }
   },
   mounted() {},
-  methods: {},
-};
+  methods: {}
+}
 </script>
 <style lang="stylus" scoped>
 .list
@@ -47,6 +50,10 @@ export default {
   max-width 1000px
   margin 0 auto
   padding-top 85px
+  .continue-reading {
+    text-decoration none
+    color #0366d6
+  }
   &__article
     list-style none
     margin-left 260px
