@@ -23,52 +23,48 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from 'vuex'
+import { queryAllTags } from '../../api/tags'
 export default {
   data() {
     return {
       iconList: [
         {
-          name: "github",
-          href: "https://github.com/huangyan321"
+          name: 'github',
+          href: 'https://github.com/huangyan321'
         }
       ],
-      tags: [
-        {
-          name: "vuejs"
-        },
-        {
-          name: "javascript"
-        },
-        {
-          name: "nodejs"
-        },
-        {
-          name: "计算机基础"
-        },
-        {
-          name: "计算机网络"
-        }
-      ]
-    };
+      tags: []
+    }
   },
   watch: {
     sideBoxOpen: {
       handler(v) {
-        console.log(v);
+        console.log(v)
       }
     }
   },
   computed: {
-    ...mapGetters(["sideBoxOpen"])
+    ...mapGetters(['sideBoxOpen'])
+  },
+  created() {
+    this.getTags()
   },
   mounted() {},
   methods: {
-    ...mapMutations("side", {
-      closeSideBox: "CLOSE_SIDE_BOX"
+    async getTags() {
+      const res = await queryAllTags()
+      res.code === 200
+        ? (() => {
+            this.tags = res.data
+          })()
+        : ''
+    },
+    ...mapMutations('side', {
+      closeSideBox: 'CLOSE_SIDE_BOX'
     })
   }
-};
+}
 </script>
 <style lang="stylus" scoped>
 @import '../../assets/stylus/_settings.styl'
