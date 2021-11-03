@@ -1,6 +1,5 @@
 <template>
   <div class="article">
-    <Side></Side>
     <div class="article__loading" v-if="showLoading">
       <Loading :text="loadingMsg"></Loading>
     </div>
@@ -62,7 +61,6 @@ export default {
   padding 10px
   max-width 1000px
   margin 0 auto
-  padding-top 85px
   &__loading
     position fixed
     top 50%
