@@ -59,6 +59,11 @@ export default {
       showLoading: false
     }
   },
+  watch: {
+    selectTags: {
+      handler(n, o) {}
+    }
+  },
   computed: {
     ...mapGetters(['selectTags', 'blogs', 'total', 'pageSize']),
     filterMsg() {
