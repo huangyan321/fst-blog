@@ -47,7 +47,7 @@ $footer-height = 60px
 .wrap:after
   content ''
   display block
-  // height $footer-height
+  height $footer-height
 .footer
   height $footer-height
   text-align center
