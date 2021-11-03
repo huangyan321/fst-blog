@@ -271,15 +271,6 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
   //查询博客详情
   static async queryOne(req, res) {
     const data = Utils.filter(req.query, ['blog_id'])
-    const { uid } = await Jwt.verifysync(
-      req.headers.authorization,
-      global.globalkey
-    )
-    if (!uid) {
-      return res.send({
-        ...Tips[1005],
-      })
-    }
     const result = Utils.formatData(data, [
       {
         key: 'blog_id',
