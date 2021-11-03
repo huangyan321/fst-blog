@@ -6,6 +6,6 @@ const getters = {
   pageNum: state => state.list.pageNum,
   pageSize: state => state.list.pageSize,
   currentlyCompiledBlog: state => state.list.currentlyCompiledBlog,
-  currentBlogs: state => state.list.currentBlogs
+  currentBlog: state => state.list.currentBlog
 }
 export default getters
