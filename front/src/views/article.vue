@@ -19,8 +19,7 @@ import { mapActions, mapGetters } from 'vuex'
 import mark from '../utils/marked'
 export default {
   components: {
-    Loading,
-    Side
+    Loading
   },
   data() {
     return {
