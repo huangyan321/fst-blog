@@ -1,10 +1,10 @@
-import { queryAllBlogs } from '../../api/article'
-
+import { queryAllBlogs, queryOneBlog } from '../../api/article'
+import markdownCompile from '../../utils/marked'
 const state = {
   blogs: [],
   pageNum: 0,
   pageSize: 0,
-  currentBlogs: {
+  currentBlog: {
     id: '',
     content: ''
   },
@@ -13,6 +13,10 @@ const state = {
 const mutations = {
   GET_ALL_BLOGS(state, blogs) {
     state.blogs = blogs
+  },
+  GET_ONE_BLOGS(state, blog) {
+    state.currentBlog = blog
+    state.currentlyCompiledBlog = markdownCompile(blog.content)
   }
 }
 const actions = {
@@ -24,6 +28,14 @@ const actions = {
           resolve(res)
         })
       }
+    })
+  },
+  getOneBlog({ commit, state }, blog_id) {
+    return queryOneBlog(blog_id).then(res => {
+      commit('GET_ONE_BLOGS', res.data)
+      return new Promise((resolve, reject) => {
+        resolve(res)
+      })
     })
   }
 }
