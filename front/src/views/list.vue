@@ -33,33 +33,37 @@
           </div>
         </li>
       </template>
-      <div class="msg-box" v-if="blogs.length === 0">暂时没有相关内容</div>
+      <h3 class="msg-box" v-if="blogs.length === 0">暂时没有相关内容</h3>
+      <Pagination
+        :small="true"
+        v-show="total > 0"
+        :limit="pageSize"
+        :total="total"
+        @pagination="getAllBlogs"
+      ></Pagination>
     </ul>
   </div>
 </template>
 <script>
 import Side from '../components/common/Side'
 import Loading from '../components/Loading'
-import { mapGetters, mapActions } from 'vuex'
+import Pagination from '../components/common/Pagination'
+import { mapGetters, mapActions, mapMutations, mapState } from 'vuex'
 import mark from '../utils/marked'
 export default {
   components: {
     Side,
-    Loading
+    Loading,
+    Pagination
   },
   data() {
     return {
-      listQuery: {
-        pageNum: 1,
-        pageSize: 5,
-        type: 0
-      },
       loadingMsg: '疯狂加载中！奥里给干了！！',
       showLoading: false
     }
   },
   computed: {
-    ...mapGetters(['selectTags', 'blogs']),
+    ...mapGetters(['selectTags', 'blogs', 'total', 'pageSize']),
     filterMsg() {
       let msg = ''
       this.selectTags.forEach((item, index) => {
@@ -71,7 +75,7 @@ export default {
   beforeMount() {
     let that = this
     this.showLoading = true
-    let res = this.getAllBlogs(this.listQuery)
+    let res = this.getAllBlogs()
     setTimeout(() => {
       that.showLoading = false
     }, 200)
@@ -83,6 +87,9 @@ export default {
     },
     ...mapActions('list', {
       getAllBlogs: 'getAllBlogs'
+    }),
+    ...mapMutations('list', {
+      triggerPage: 'TRIGGER_PAGE'
     })
   }
 }
