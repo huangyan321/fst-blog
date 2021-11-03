@@ -83,6 +83,8 @@ export default {
   text-align center
   &__img
     width 150px
+    height 150px
+    object-fit contain
     border-radius 50%
     box-shadow 0 0 2px black
     margin-top 10px
