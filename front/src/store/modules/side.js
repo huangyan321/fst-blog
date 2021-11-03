@@ -2,7 +2,8 @@ import { queryAllTags } from '../../api/tags'
 
 const state = {
   sideBoxOpen: false,
-  tags: []
+  tags: [],
+  selectTags: []
 }
 const mutations = {
   TOGGLE_SIDE_BOX(state) {
@@ -14,6 +15,20 @@ const mutations = {
   },
   GET_ALL_TAGS(state, tags) {
     state.tags = tags
+  },
+  //目的是初始化标签
+  RESET_SELECT_TAGS(state, tags) {
+    state.selectTags = tags
+  },
+  TRIGGER_SELECT_TAGS(state, { tag_id, name }) {
+    if (typeof state.selectTags.find(e => e.tag_id === tag_id) === 'undefined') {
+      state.selectTags.push({
+        name,
+        tag_id
+      })
+    } else {
+      state.selectTags = state.selectTags.filter(e => e.tag_id !== tag_id)
+    }
   }
 }
 const actions = {

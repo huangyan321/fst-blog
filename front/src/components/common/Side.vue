@@ -15,7 +15,13 @@
         </li>
       </ul>
       <ul class="sideBox__tagList">
-        <li v-for="(tag, idx) in tags" :key="idx" class="sideBox__tagItem">
+        <li
+          v-for="(tag, idx) in tags"
+          :key="idx"
+          class="sideBox__tagItem"
+          :class="{ 'sideBox__tagItem--active': selectTags.find(e => tag.tag_id === e.tag_id) }"
+          @click="triggerSelectTags(tag)"
+        >
           <span>{{ tag.name }}</span>
         </li>
       </ul>
@@ -43,7 +49,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['sideBoxOpen', 'tags'])
+    ...mapGetters(['sideBoxOpen', 'tags', 'selectTags'])
   },
   created() {
     this.getAllTags()
@@ -54,7 +60,8 @@ export default {
       getAllTags: 'getAllTags'
     }),
     ...mapMutations('side', {
-      closeSideBox: 'CLOSE_SIDE_BOX'
+      closeSideBox: 'CLOSE_SIDE_BOX',
+      triggerSelectTags: 'TRIGGER_SELECT_TAGS'
     })
   }
 }
@@ -104,6 +111,9 @@ export default {
     cursor pointer
     &:hover
       color $blue
+  &__tagItem--active
+    color $blue
+    border 1px solid $blue
   @media screen and (max-width 850px)
     .sideBox
       position absolute
