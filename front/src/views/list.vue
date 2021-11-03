@@ -13,8 +13,10 @@
         </li>
       </transition>
       <template v-if="blogs.length !== 0 && showLoading == false">
-        <li class="list__article__item" v-for="blog in blogs" :key="blog.id">
-          <h1 class="list__article__item__title">{{ blog.title }}</h1>
+        <li class="list__article__item" v-for="blog in blogs" :key="blog.blog_id">
+          <h1 class="list__article__item__title">
+            <router-link :to="'article/' + blog.blog_id">{{ blog.title }}</router-link>
+          </h1>
           <div class="list__article__item__info">
             <p class="list__article__item__time">{{ blog.update_time }}</p>
             <div
@@ -24,7 +26,9 @@
               {{ blog.brief }}
             </div>
             <p>
-              <router-link to="" class="continue-reading">继续阅读...</router-link>
+              <router-link :to="'article/' + blog.blog_id" class="continue-reading"
+                >继续阅读...</router-link
+              >
             </p>
           </div>
         </li>
@@ -70,7 +74,7 @@ export default {
     let res = this.getAllBlogs(this.listQuery)
     setTimeout(() => {
       that.showLoading = false
-    }, 5000)
+    }, 200)
   },
   mounted() {},
   methods: {
@@ -116,7 +120,10 @@ export default {
       &__abstract
         margin-bottom 5px
       &__title
-        font-size 24px
+        font-size 20px
+        a
+          text-decoration none
+          color black
       &__time
         color #7f8c8d
         font-weight 400
