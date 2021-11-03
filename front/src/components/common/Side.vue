@@ -23,8 +23,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import { queryAllTags } from '../../api/tags'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -33,8 +32,7 @@ export default {
           name: 'github',
           href: 'https://github.com/huangyan321'
         }
-      ],
-      tags: []
+      ]
     }
   },
   watch: {
@@ -45,21 +43,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['sideBoxOpen'])
+    ...mapGetters(['sideBoxOpen', 'tags'])
   },
   created() {
-    this.getTags()
+    this.getAllTags()
   },
   mounted() {},
   methods: {
-    async getTags() {
-      const res = await queryAllTags()
-      res.code === 200
-        ? (() => {
-            this.tags = res.data
-          })()
-        : ''
-    },
+    ...mapActions('side', {
+      getAllTags: 'getAllTags'
+    }),
     ...mapMutations('side', {
       closeSideBox: 'CLOSE_SIDE_BOX'
     })
