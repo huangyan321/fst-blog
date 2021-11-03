@@ -338,45 +338,58 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
         ...Tips[1007],
       })
     }
-    let { pageSize = 10, pageNum = 1, type = 0, note_id } = data
+    let { pageSize = 10, pageNum = 1, type = 0, tag_id } = data
     pageSize = Number(pageSize)
     pageNum = Number(pageNum)
+    let tags_id = tag_id.split(',')
     const offset = (pageNum - 1) * pageSize
     const { id } = data
     const uid = 1
     try {
       if (type == 1) {
-        const count = await this.querySumOfField(
-          't_blog',
+        const list = await this.queryAllBlogByTags(
+          't_tag',
+          ['name'],
+          'update_time',
+          tags_id,
           ['uid', 'is_delete'],
-          uid,
-          0
-        )
-        const list = await this.QueryFieldByPage(
-          't_blog',
-          [
-            'title',
-            'note_id',
-            'id',
-            'brief',
-            'publish',
-            'create_time',
-            'update_time',
-          ],
-          'create_time',
-          ['uid', 'note_id', 'is_delete'],
           offset,
           pageSize,
-          uid,
-          note_id,
+          1,
           0
         )
+        console.log(list)
+        // const count = await this.querySumOfField(
+        //   't_blog',
+        //   ['uid', 'is_delete'],
+        //   uid,
+        //   0
+        // )
+        // const list = await this.QueryFieldByPage(
+        //   't_blog',
+        //   [
+        //     'title',
+        //     'tag_id',
+        //     'id',
+        //     'brief',
+        //     'publish',
+        //     'create_time',
+        //     'update_time',
+        //   ],
+        //   'create_time',
+        //   ['uid', 'tag_id', 'is_delete'],
+        //   offset,
+        //   pageSize,
+        //   uid,
+        //   tag_id,
+        //   0
+        // )
         res.send({
           ...Tips[0],
-          total: count[0]['count(1)'],
-          data: list,
-          pageNum,
-          pageSize,
+          // total: count[0]['count(1)'],
+          // data: list,
+          // pageNum,
+          // pageSize,
         })
       } else {
         const count = await this.querySumOfField(

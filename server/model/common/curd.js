@@ -1,6 +1,7 @@
-const Utils = require("../../utils");
-const sqlSentence = require("../../sql");
-module.exports = class Curd extends require("../index") {
+const Utils = require('../../utils')
+const sqlSentence = require('../../sql')
+const sqlSentenceOfBlog = require('../../sql/blog')
+module.exports = class Curd extends require('../index') {
   /**
    *
    * @param {String} table 表名
@@ -10,17 +11,17 @@ module.exports = class Curd extends require("../index") {
    */
   static addField(table, params, ...values) {
     return new Promise((resolve, reject) => {
-      const sql = sqlSentence.Add(table, params);
+      const sql = sqlSentence.Add(table, params)
       if (sql) {
         this.query(sql, this.formatParams(...values))
           .then((res) => {
-            resolve(res);
+            resolve(res)
           })
           .catch((err) => {
-            reject(err);
-          });
+            reject(err)
+          })
       }
-    });
+    })
   }
   /**
    *
@@ -31,79 +32,79 @@ module.exports = class Curd extends require("../index") {
    */
   static deleteField(table, where, ...values) {
     return new Promise((resolve, reject) => {
-      const sql = sqlSentence.Delete(table, where);
-      console.log(sql);
+      const sql = sqlSentence.Delete(table, where)
+      console.log(sql)
       if (sql) {
         this.query(sql, this.formatParams(...values))
           .then((res) => {
-            resolve(res);
+            resolve(res)
           })
           .catch((err) => {
-            reject(err);
-          });
+            reject(err)
+          })
       }
-    });
+    })
   }
   static editField(table, set, where, ...values) {
     return new Promise((resolve, reject) => {
-      const sql = sqlSentence.Edit(table, set, where);
-      console.log(sql);
+      const sql = sqlSentence.Edit(table, set, where)
+      console.log(sql)
       if (sql) {
         this.query(sql, this.formatParams(...values))
           .then((res) => {
-            resolve(res);
+            resolve(res)
           })
           .catch((err) => {
-            console.log(err);
-            reject(err);
-          });
+            console.log(err)
+            reject(err)
+          })
       }
-    });
+    })
   }
   static queryOneOfField(table, params, where, ...values) {
     return new Promise((resolve, reject) => {
-      const sql = sqlSentence.QueryOne(table, params, where);
-      console.log(sql);
+      const sql = sqlSentence.QueryOne(table, params, where)
+      console.log(sql)
       if (sql) {
         this.query(sql, this.formatParams(...values))
           .then((res) => {
-            resolve(res);
+            resolve(res)
           })
           .catch((err) => {
-            reject(err);
-          });
+            reject(err)
+          })
       }
-    });
+    })
   }
   static querySumOfField(table, where, ...values) {
     return new Promise((resolve, reject) => {
-      const sql = sqlSentence.QuerySum(table, where);
-      console.log(sql);
+      const sql = sqlSentence.QuerySum(table, where)
+      console.log(sql)
       if (sql) {
         this.query(sql, this.formatParams(...values))
           .then((res) => {
-            resolve(res);
+            resolve(res)
           })
           .catch((err) => {
-            reject(err);
-          });
+            reject(err)
+          })
       }
-    });
+    })
   }
   static queryAllOfField(table, params, order, where, ...values) {
     return new Promise((resolve, reject) => {
-      const sql = sqlSentence.QueryAll(table, params, order, where);
-      console.log(sql);
+      const sql = sqlSentence.QueryAll(table, params, order, where)
+      console.log(sql)
       if (sql) {
         this.query(sql, this.formatParams(...values))
           .then((res) => {
-            resolve(res);
+            resolve(res)
           })
           .catch((err) => {
-            reject(err);
-          });
+            reject(err)
+          })
       }
-    });
+    })
   }
   static QueryFieldByPage(
     table,
@@ -122,17 +123,49 @@ module.exports = class Curd extends require("../index") {
         where,
         offset,
         pageSize
-      );
-      console.log(sql);
+      )
+      console.log(sql)
       if (sql) {
         this.query(sql, this.formatParams(...values))
           .then((res) => {
-            resolve(res);
+            resolve(res)
           })
           .catch((err) => {
-            reject(err);
-          });
+            reject(err)
+          })
       }
-    });
+    })
   }
-};
+  static queryAllBlogByTags(
+    table,
+    params,
+    order,
+    tag_id,
+    where,
+    offset,
+    pageSize,
+    ...values
+  ) {
+    return new Promise((resolve, reject) => {
+      const sql = sqlSentenceOfBlog.queryAllBlogByTags(
+        table,
+        params,
+        order,
+        tag_id,
+        where,
+        offset,
+        pageSize
+      )
+      console.log(sql)
+      if (sql) {
+        this.query(sql, this.formatParams(...values))
+          .then((res) => {
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      }
+    })
+  }
+}
