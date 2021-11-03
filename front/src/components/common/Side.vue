@@ -6,9 +6,14 @@
       @click="closeSideBox"
     ></div>
     <div class="sideBox__main" :class="{ 'sideBox__main--open': sideBoxOpen }">
-      <img src="http://admin.hgyn23.cn/static/img/cat.ea0074ff.jpg" alt="" class="sideBox__img" />
-      <p class="sideBox__name">昵称</p>
-      <p class="sideBox__autograph">签名</p>
+      <img
+        src="https://portrait.gitee.com/uploads/avatars/user/2723/8171994_wping_w_1614679129.png!avatar200"
+        alt=""
+        class="sideBox__img"
+        @click="picClick"
+      />
+      <p class="sideBox__name">huangyan123</p>
+      <p class="sideBox__autograph">此处插入签名</p>
       <ul class="sideBox__iconList">
         <li v-for="(icon, idx) in iconList" :key="idx" class="sideBox__iconItem">
           <a :href="icon.href"><i class="iconfont" :class="'icon-' + icon.name"></i></a>
@@ -62,7 +67,11 @@ export default {
     ...mapMutations('side', {
       closeSideBox: 'CLOSE_SIDE_BOX',
       triggerSelectTags: 'TRIGGER_SELECT_TAGS'
-    })
+    }),
+    picClick() {
+      this.closeSideBox()
+      this.$router.push('/')
+    }
   }
 }
 </script>
@@ -146,6 +155,6 @@ export default {
         display block
       &__tagItem:hover
         color $grey
-      &_tagItem--active:hover
+      &__tagItem--active:hover
         color $blue
 </style>

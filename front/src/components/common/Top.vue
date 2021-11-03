@@ -7,26 +7,25 @@
         class="top-header__menu-button"
         @click="toggleSidebox"
       />
-
-      <router-link to="/" class="top-header__main-icon">blog</router-link>
+      <router-link to="/" class="top-header__main-icon">lan bi tou</router-link>
     </header>
   </div>
 </template>
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations } from 'vuex'
 export default {
   data() {
-    return {};
+    return {}
   },
   computed: {},
   mounted() {},
   methods: {
     //将模块的空间名称字符串作为第一个参数传递
-    ...mapMutations("side", {
-      toggleSidebox: "TOGGLE_SIDE_BOX"
+    ...mapMutations('side', {
+      toggleSidebox: 'TOGGLE_SIDE_BOX'
     })
   }
-};
+}
 </script>
 <style lang="stylus" scoped>
 @import '../../assets/stylus/_settings.styl';
