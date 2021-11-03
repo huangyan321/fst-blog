@@ -14,7 +14,6 @@
   </div>
 </template>
 <script>
-import Side from '../components/common/Side'
 import Loading from '../components/Loading'
 import { mapActions, mapGetters } from 'vuex'
 import mark from '../utils/marked'

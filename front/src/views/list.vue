@@ -1,6 +1,5 @@
 <template>
   <div class="list">
-    <Side></Side>
     <div class="list__loading" v-if="showLoading">
       <Loading :text="loadingMsg"></Loading>
     </div>
@@ -45,14 +44,12 @@
   </div>
 </template>
 <script>
-import Side from '../components/common/Side'
 import Loading from '../components/Loading'
 import Pagination from '../components/common/Pagination'
 import { mapGetters, mapActions, mapMutations, mapState } from 'vuex'
 import mark from '../utils/marked'
 export default {
   components: {
-    Side,
     Loading,
     Pagination
   },
@@ -109,10 +106,9 @@ export default {
   opacity: 0;
 }
 .list
-  padding 10px
+  padding 5px
   max-width 1000px
   margin 0 auto
-  padding-top 85px
   .continue-reading {
     text-decoration none
     color #0366d6
@@ -151,7 +147,6 @@ export default {
 @media screen and (max-width 850px)
   .list
     position relative
-    padding-top 85px
     &__article
       list-style none
       margin-left 0
