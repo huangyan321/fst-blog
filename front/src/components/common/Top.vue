@@ -43,7 +43,7 @@ export default {
 
   &__main-icon {
     text-decoration: none;
-    color: $blue;
+    color $grey-dark;
     font-weight: 600;
     font-size: 20px;
   }
