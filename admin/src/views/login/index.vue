@@ -1,9 +1,9 @@
 <template>
   <div class="login-container">
     <figure class="container">
-      <div class="sun"></div>
+      <div class="sun" />
       <div class="earth">
-        <div class="moon"></div>
+        <div class="moon" />
       </div>
     </figure>
     <el-form
@@ -15,7 +15,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">管理后台</h3>
+        <h3 class="title">博客后台</h3>
       </div>
 
       <el-form-item prop="username">
@@ -69,11 +69,6 @@
           >重置</el-button
         >
       </el-row>
-
-      <div class="tips">
-        <span style="margin-right: 20px">username: admin</span>
-        <span> password: 123456</span>
-      </div>
     </el-form>
     <div class="footer">
       <a href="http://beian.miit.gov.cn/" target="_blank" style="color: #a6a9ad"
@@ -109,28 +104,28 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "123456",
+        password: "123456"
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: "blur", validator: validateUsername }
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
-        ],
+          { required: true, trigger: "blur", validator: validatePassword }
+        ]
       },
       loading: false,
       passwordType: "password",
-      redirect: undefined,
+      redirect: undefined
     };
   },
   watch: {
     $route: {
-      handler: function (route) {
+      handler: function(route) {
         this.redirect = route.query && route.query.redirect;
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     loginFormReset() {
@@ -147,7 +142,7 @@ export default {
       });
     },
     handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
@@ -164,8 +159,8 @@ export default {
           return false;
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
