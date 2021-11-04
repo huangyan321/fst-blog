@@ -40,9 +40,7 @@ export default {
       let that = this
       this.isLoading = true
       let res = await this.getOneBlog(this.$route.params.id)
-      setTimeout(() => {
-        that.showLoading = false
-      }, 200)
+      that.showLoading = false
       // res.code === 200 ?
     },
     compiledMarkdown(value) {

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import nProgress from 'nprogress'
 const request = axios.create({
-  baseURL: 'http://127.0.0.1:3000',
-  timeout: 30000
+  baseURL: 'http://121.196.101.73:9000',
+  timeout: 9000
 })
 request.interceptors.request.use(config => {
   nProgress.start()

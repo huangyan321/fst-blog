@@ -32,7 +32,7 @@
           </div>
         </li>
       </template>
-      <h3 class="msg-box" v-if="blogs.length === 0">暂时没有相关内容</h3>
+      <h3 class="msg-box" v-if="blogs.length === 0 && showLoading == false">暂时没有相关内容</h3>
       <Pagination
         :small="true"
         v-show="total > 0"
@@ -80,9 +80,7 @@ export default {
     let that = this
     this.showLoading = true
     let res = this.getAllBlogs()
-    setTimeout(() => {
-      that.showLoading = false
-    }, 200)
+    this.showLoading = false
   },
   mounted() {},
   methods: {
