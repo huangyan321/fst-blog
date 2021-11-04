@@ -1,10 +1,10 @@
 import { queryAllBlogs, queryOneBlog } from '../../api/article'
+import { queryBlogsBySelectTags } from '../../api/list'
 import markdownCompile from '../../utils/marked'
 const state = {
   blogs: [],
   pageNum: 1,
   pageSize: 4,
-  type: 0,
   total: 0,
   currentBlog: {
     id: '',
@@ -27,19 +27,23 @@ const mutations = {
   }
 }
 const actions = {
-  getAllBlogs({ commit, state }) {
-    return queryAllBlogs({
-      pageNum: state.pageNum,
-      pageSize: state.pageSize,
-      type: state.type
-    }).then(res => {
-      if (res.code === 200) {
-        commit('GET_ALL_BLOGS', res)
-        return new Promise((resolve, reject) => {
-          resolve(res)
-        })
-      }
-    })
+  getAllBlogs({ dispatch, commit, state, rootGetters }) {
+    if (!rootGetters.selectTagsId.length) {
+      return queryAllBlogs({
+        pageNum: state.pageNum,
+        pageSize: state.pageSize,
+        type: 0
+      }).then(res => {
+        if (res.code === 200) {
+          commit('GET_ALL_BLOGS', res)
+          return new Promise((resolve, reject) => {
+            resolve(res)
+          })
+        }
+      })
+    } else {
+      return dispatch('getBlogsBySelectTags')
+    }
   },
   getOneBlog({ commit, state }, blog_id) {
     return queryOneBlog(blog_id).then(res => {
@@ -48,6 +52,25 @@ const actions = {
         resolve(res)
       })
     })
+  },
+  getBlogsBySelectTags({ dispatch, commit, state, rootGetters }) {
+    if (rootGetters.selectTagsId.length) {
+      return queryBlogsBySelectTags({
+        pageNum: state.pageNum,
+        pageSize: state.pageSize,
+        tag_id: rootGetters.selectTagsId.join(','),
+        type: 1
+      }).then(res => {
+        if (res.code === 200) {
+          commit('GET_ALL_BLOGS', res)
+          return new Promise((resolve, reject) => {
+            resolve(res)
+          })
+        }
+      })
+    } else {
+      return dispatch('getAllBlogs')
+    }
   }
 }
 

@@ -61,7 +61,9 @@ export default {
   },
   watch: {
     selectTags: {
-      handler(n, o) {}
+      async handler(n, o) {
+        this.getBlogsBySelectTags()
+      }
     }
   },
   computed: {
@@ -88,7 +90,8 @@ export default {
       return mark(value)
     },
     ...mapActions('list', {
-      getAllBlogs: 'getAllBlogs'
+      getAllBlogs: 'getAllBlogs',
+      getBlogsBySelectTags: 'getBlogsBySelectTags'
     }),
     ...mapMutations('list', {
       triggerPage: 'TRIGGER_PAGE'

@@ -1,7 +1,7 @@
 const Jwt = require('../utils/jwtUtils')
 const Utils = require('../utils')
 const Tips = require('../utils/tip')
-const { number } = require('is')
+const { number, array } = require('is')
 
 module.exports = class Blog_dao extends require('../model/common/curd') {
   //新增博客
@@ -347,49 +347,48 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
     const uid = 1
     try {
       if (type == 1) {
-        const list = await this.queryAllBlogByTags(
+        const list = await this.queryTagNameByTagsId(
           't_tag',
           ['name'],
           'update_time',
           tags_id,
           ['uid', 'is_delete'],
-          offset,
-          pageSize,
           1,
           0
         )
-        console.log(list)
-        // const count = await this.querySumOfField(
-        //   't_blog',
-        //   ['uid', 'is_delete'],
-        //   uid,
-        //   0
-        // )
-        // const list = await this.QueryFieldByPage(
-        //   't_blog',
-        //   [
-        //     'title',
-        //     'tag_id',
-        //     'id',
-        //     'brief',
-        //     'publish',
-        //     'create_time',
-        //     'update_time',
-        //   ],
-        //   'create_time',
-        //   ['uid', 'tag_id', 'is_delete'],
-        //   offset,
-        //   pageSize,
-        //   uid,
-        //   tag_id,
-        //   0
-        // )
+        const list1 = await this.queryBlogsIdByTagsName(
+          't_tag',
+          ['blog_id'],
+          'update_time',
+          list,
+          ['uid', 'is_delete'],
+          1,
+          0
+        )
+        const list2 = await this.queryBlogByBlogIds(
+          't_blog',
+          [
+            'title',
+            'blog_id',
+            'brief',
+            'publish',
+            'create_time',
+            'update_time',
+          ],
+          'create_time',
+          list1,
+          ['uid', 'is_delete'],
+          offset,
+          pageSize,
+          uid,
+          0
+        )
         res.send({
           ...Tips[0],
-          // total: count[0]['count(1)'],
-          // data: list,
-          // pageNum,
-          // pageSize,
+          total: Array.isArray(list2) ? list2.length : 0,
+          data: list2,
+          pageNum,
+          pageSize,
         })
       } else {
         const count = await this.querySumOfField(

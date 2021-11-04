@@ -2,6 +2,7 @@ const getters = {
   sideBoxOpen: state => state.side.sideBoxOpen,
   tags: state => state.side.tags,
   selectTags: state => state.side.selectTags,
+  selectTagsId: state => state.side.selectTagsId,
   blogs: state => state.list.blogs,
   pageNum: state => state.list.pageNum,
   pageSize: state => state.list.pageSize,

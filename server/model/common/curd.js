@@ -136,22 +136,64 @@ module.exports = class Curd extends require('../index') {
       }
     })
   }
-  static queryAllBlogByTags(
+  static queryTagNameByTagsId(table, params, order, tag_id, where, ...values) {
+    return new Promise((resolve, reject) => {
+      const sql = sqlSentenceOfBlog.queryTagNameByTagsId(
+        table,
+        params,
+        order,
+        tag_id,
+        where
+      )
+      console.log(sql)
+      if (sql) {
+        this.query(sql, this.formatParams(...values))
+          .then((res) => {
+            resolve(res.map((i) => i.name))
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      }
+    })
+  }
+  static queryBlogsIdByTagsName(table, params, order, names, where, ...values) {
+    return new Promise((resolve, reject) => {
+      const sql = sqlSentenceOfBlog.queryBlogsIdByTagsName(
+        table,
+        params,
+        order,
+        names,
+        where
+      )
+      console.log(sql)
+      if (sql) {
+        this.query(sql, this.formatParams(...values))
+          .then((res) => {
+            resolve(res.map((i) => i.blog_id))
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      }
+    })
+  }
+  static queryBlogByBlogIds(
     table,
     params,
     order,
-    tag_id,
+    blogIds,
     where,
     offset,
     pageSize,
     ...values
   ) {
     return new Promise((resolve, reject) => {
-      const sql = sqlSentenceOfBlog.queryAllBlogByTags(
+      const sql = sqlSentenceOfBlog.queryBlogByBlogIds(
         table,
         params,
         order,
-        tag_id,
+        blogIds,
         where,
         offset,
         pageSize

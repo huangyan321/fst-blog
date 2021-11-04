@@ -3,7 +3,8 @@ import { queryAllTags } from '../../api/tags'
 const state = {
   sideBoxOpen: false,
   tags: [],
-  selectTags: []
+  selectTags: [],
+  selectTagsId: []
 }
 const mutations = {
   TOGGLE_SIDE_BOX(state) {
@@ -25,9 +26,11 @@ const mutations = {
       state.selectTags.push({
         name,
         tag_id
-      })
+      }),
+        state.selectTagsId.push(tag_id)
     } else {
       state.selectTags = state.selectTags.filter(e => e.tag_id !== tag_id)
+      state.selectTagsId = state.selectTagsId.filter(e => e !== tag_id)
     }
   }
 }
