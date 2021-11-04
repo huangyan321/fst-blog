@@ -341,7 +341,7 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
     let { pageSize = 10, pageNum = 1, type = 0, tag_id } = data
     pageSize = Number(pageSize)
     pageNum = Number(pageNum)
-    let tags_id = tag_id.split(',')
+    let tags_id = tag_id ? tag_id.split(',') : ''
     const offset = (pageNum - 1) * pageSize
     const { id } = data
     const uid = 1
