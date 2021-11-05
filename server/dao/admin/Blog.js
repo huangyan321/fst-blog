@@ -83,12 +83,13 @@ module.exports = class Blog_dao extends require('../../model/common/curd') {
       for (let i = 0; i < tags.length; i++) {
         await this.addField(
           't_tag',
-          ['name', 'blog_id', 'create_time', 'update_time', 'uid'],
+          ['name', 'blog_id', 'create_time', 'update_time', 'uid', 'publish'],
           tags[i].name,
           insertId,
           create_time,
           create_time,
-          uid
+          uid,
+          publish
         )
       }
       res.send(Tips[0])
@@ -207,12 +208,13 @@ module.exports = class Blog_dao extends require('../../model/common/curd') {
       for (let i = 0; i < tags.length; i++) {
         await this.addField(
           't_tag',
-          ['name', 'blog_id', 'create_time', 'update_time', 'uid'],
+          ['name', 'blog_id', 'create_time', 'update_time', 'uid', 'publish'],
           tags[i].name,
           blog_id,
           update_time,
           update_time,
-          uid
+          uid,
+          publish
         )
       }
       res.send(Tips[0])
@@ -253,6 +255,14 @@ module.exports = class Blog_dao extends require('../../model/common/curd') {
     try {
       let { changedRows } = await this.editField(
         't_blog',
+        ['publish'],
+        ['uid', 'blog_id'],
+        publish,
+        uid,
+        blog_id
+      )
+      await this.editField(
+        't_tag',
         ['publish'],
         ['uid', 'blog_id'],
         publish,
