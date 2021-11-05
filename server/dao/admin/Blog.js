@@ -1,9 +1,9 @@
-const Jwt = require('../utils/jwtUtils')
-const Utils = require('../utils')
-const Tips = require('../utils/tip')
+const Jwt = require('../../utils/jwtUtils')
+const Utils = require('../../utils')
+const Tips = require('../../utils/tip')
 const { number, array } = require('is')
 
-module.exports = class Blog_dao extends require('../model/common/curd') {
+module.exports = class Blog_dao extends require('../../model/common/curd') {
   //新增博客
   static async add(req, res) {
     const data = Utils.filter(req.body, [
@@ -271,6 +271,15 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
   //查询博客详情
   static async queryOne(req, res) {
     const data = Utils.filter(req.query, ['blog_id'])
+    const { uid } = await Jwt.verifysync(
+      req.headers.authorization,
+      global.globalkey
+    )
+    if (!uid) {
+      return res.send({
+        ...Tips[1005],
+      })
+    }
     const result = Utils.formatData(data, [
       {
         key: 'blog_id',
@@ -296,16 +305,18 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
           'create_time',
           'update_time',
         ],
-        ['blog_id', 'is_delete'],
+        ['blog_id', 'is_delete', 'uid'],
         blog_id,
-        0
+        0,
+        uid
       )
       const queryTags = await this.queryOneOfField(
         't_tag',
         ['name'],
-        ['blog_id', 'is_delete'],
+        ['blog_id', 'is_delete', 'uid'],
         blog_id,
-        0
+        0,
+        uid
       )
       res.send({
         ...Tips[0],
@@ -319,17 +330,25 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
       res.send(Tips[1008])
     }
   }
-  //查询所有博客(type：0 分页查询 type：1根据标签查询)
+  //分页查询所有博客
   static async queryByType(req, res) {
-    const data = Utils.filter(req.query, [
-      'pageSize',
-      'pageNum',
-      'tag_id',
-      'type',
-    ])
+    const data = Utils.filter(req.query, ['pageSize', 'pageNum'])
+    const { uid } = await Jwt.verifysync(
+      req.headers.authorization,
+      global.globalkey
+    )
+    if (!uid) {
+      return res.send({
+        ...Tips[1005],
+      })
+    }
     const result = Utils.formatData(data, [
       {
-        key: 'type',
+        key: 'pageSize',
+        type: 'number',
+      },
+      {
+        key: 'pageNum',
         type: 'number',
       },
     ])
@@ -344,86 +363,39 @@ module.exports = class Blog_dao extends require('../model/common/curd') {
     let tags_id = tag_id ? tag_id.split(',') : ''
     const offset = (pageNum - 1) * pageSize
     const { id } = data
-    const uid = 1
     try {
-      if (type == 1) {
-        const list = await this.queryTagNameByTagsId(
-          't_tag',
-          ['name'],
-          'update_time',
-          tags_id,
-          ['uid', 'is_delete'],
-          1,
-          0
-        )
-        const list1 = await this.queryBlogsIdByTagsName(
-          't_tag',
-          ['blog_id'],
-          'update_time',
-          list,
-          ['uid', 'is_delete'],
-          1,
-          0
-        )
-        const list2 = await this.queryBlogByBlogIds(
-          't_blog',
-          [
-            'title',
-            'blog_id',
-            'brief',
-            'publish',
-            'create_time',
-            'update_time',
-          ],
+      const count = await this.querySumOfField(
+        't_blog',
+        ['uid', 'is_delete'],
+        uid,
+        0
+      )
+      const list = await this.QueryFieldByPage(
+        't_blog',
+        [
+          'blog_id',
+          'title',
+          'content',
           'create_time',
-          list1,
-          ['uid', 'is_delete'],
-          offset,
-          pageSize,
-          uid,
-          0
-        )
-        res.send({
-          ...Tips[0],
-          total: Array.isArray(list2) ? list2.length : 0,
-          data: list2,
-          pageNum,
-          pageSize,
-        })
-      } else {
-        const count = await this.querySumOfField(
-          't_blog',
-          ['uid', 'is_delete'],
-          uid,
-          0
-        )
-        const list = await this.QueryFieldByPage(
-          't_blog',
-          [
-            'blog_id',
-            'title',
-            'content',
-            'create_time',
-            'update_time',
-            'publish',
-            'brief',
-            'ext_info',
-          ],
           'update_time',
-          ['uid', 'is_delete'],
-          offset,
-          pageSize,
-          uid,
-          0
-        )
-        res.send({
-          ...Tips[0],
-          total: count[0]['count(1)'],
-          data: list,
-          pageNum,
-          pageSize,
-        })
-      }
+          'publish',
+          'brief',
+          'ext_info',
+        ],
+        'update_time',
+        ['uid', 'is_delete'],
+        offset,
+        pageSize,
+        uid,
+        0
+      )
+      res.send({
+        ...Tips[0],
+        total: count[0]['count(1)'],
+        data: list,
+        pageNum,
+        pageSize,
+      })
     } catch (err) {
       console.log(err)
       res.send(Tips[1008])

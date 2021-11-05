@@ -34,4 +34,5 @@ app.use(cookieParser())
 // app.use('/admin', express.static(__dirname + '/../admin/dist'))
 app.use(express.static(__dirname + '/../front/dist'))
 require('./routes/admin/index')(app)
+require('./routes/user/index')(app)
 module.exports = app
