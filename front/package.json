@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "build:deploy": "npm run build && gulp deploy",
+    "deploy": "gulp deploy"
   },
   "dependencies": {
     "autoprefixer": "^10.3.7",
@@ -37,6 +39,8 @@
     "@vue/cli-service": "~4.5.0",
     "babel-plugin-component": "^1.1.1",
     "eslint": "^8.1.0",
+    "gulp": "^4.0.2",
+    "gulp-ssh": "^0.7.0",
     "eslint-plugin-prettier": "^4.0.0",
     "vue-template-compiler": "^2.6.11"
   }
