@@ -1,14 +1,14 @@
-const gulp = require("gulp");
-const GulpSSH = require("gulp-ssh");
+const gulp = require('gulp')
+const GulpSSH = require('gulp-ssh')
 
 const {
   // APP_ENV,
   npm_package_name
-} = process.env;
+} = process.env
 // const isProduct = APP_ENV === 'production';
 
 // 需要上传到服务器的路径
-const remotePath = `/root/git/fst_blog/${npm_package_name}/`;
+const remotePath = `/root/git/fst_blog/${npm_package_name}/dist/`
 const config = {
   // ssh: { // 正式
   //   host: isProduct ? '' : '192.168.31.227',
@@ -18,10 +18,10 @@ const config = {
   // },
   ssh: {
     // 正式
-    host: "121.196.101.73",
+    host: '121.196.101.73',
     port: 22,
-    username: "root",
-    password: "wwp19980729~"
+    username: 'root',
+    password: 'wwp19980729~'
   },
   remotePath,
   commands: [
@@ -29,44 +29,44 @@ const config = {
     `rm -rf ${remotePath}`,
     `pm2 restart 0`
   ]
-};
+}
 const gulpSSH = new GulpSSH({
   ignoreErrors: false,
   sshConfig: config.ssh
-});
+})
 /**
  * 上传前先删除服务器上现有文件...
  */
-gulp.task("execSSH", () => {
-  console.log("删除服务器文件...");
+gulp.task('execSSH', () => {
+  console.log('删除服务器文件...')
   return gulpSSH
     .shell(config.commands[0], {
-      filePath: "commands.log"
+      filePath: 'commands.log'
     })
-    .pipe(gulp.dest("logs"));
-});
+    .pipe(gulp.dest('logs'))
+})
 
 /**
  * 等待2s
  */
 gulp.task(
-  "await",
-  gulp.series("execSSH", done => {
-    console.log("1s后开始上传文件到服务器...");
+  'await',
+  gulp.series('execSSH', done => {
+    console.log('1s后开始上传文件到服务器...')
     setTimeout(() => {
-      done();
-    }, 1000);
+      done()
+    }, 1000)
   })
-);
+)
 /**
  * 上传文件到服务器
  */
 gulp.task(
-  "upload",
-  gulp.series("await", done => {
-    return gulp.src(`./dist/**`).pipe(gulpSSH.dest(config.remotePath));
+  'upload',
+  gulp.series('await', done => {
+    return gulp.src(`./dist/**`).pipe(gulpSSH.dest(config.remotePath))
   })
-);
+)
 /**
  * 重新加载nginx
  */
@@ -86,14 +86,14 @@ gulp.task(
  * 重新加载pm2
  */
 gulp.task(
-  "deploy",
-  gulp.series("upload", () => {
-    console.log("上传完毕.....");
-    console.log("重启pm2...");
+  'deploy',
+  gulp.series('upload', () => {
+    console.log('上传完毕.....')
+    console.log('重启pm2...')
     return gulpSSH
       .shell(config.commands[1], {
-        filePath: "commands.log"
+        filePath: 'commands.log'
       })
-      .pipe(gulp.dest("logs"));
+      .pipe(gulp.dest('logs'))
   })
-);
+)

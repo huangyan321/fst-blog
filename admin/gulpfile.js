@@ -8,7 +8,7 @@ const {
 // const isProduct = APP_ENV === 'production';
 
 // 需要上传到服务器的路径
-const remotePath = `/root/git/fst_blog/${npm_package_name}/`;
+const remotePath = `/root/git/fst_blog/${npm_package_name}/dist/`;
 const config = {
   // ssh: { // 正式
   //   host: isProduct ? '' : '192.168.31.227',
