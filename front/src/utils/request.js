@@ -8,7 +8,6 @@ const request = axios.create({
   timeout: 9000
 })
 request.interceptors.request.use(config => {
-  console.log('nProgress.start()')
   nProgress.start()
   return config
   error => {
