@@ -30,7 +30,7 @@
           <span>{{ tag.name }}</span>
         </li>
       </ul>
-      <div v-else-if="!isInList" class="dirBox" :class="{ 'dirBox--fix': true }">
+      <div v-else-if="!isInList" class="dirBox" :class="{ 'dirBox--fix': false }">
         <p class="dir__title">
           目录
         </p>
@@ -72,7 +72,13 @@ export default {
     ...mapGetters(['sideBoxOpen', 'tags', 'selectTags', 'isInList', 'articleDir'])
   },
   created() {
-    this.getAllTags()
+    if (typeof window === 'undefined') {
+      return
+    }
+    if (this.isInList) {
+      this.getAllTags()
+    } else {
+    }
   },
   mounted() {},
   methods: {
