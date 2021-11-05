@@ -21,8 +21,8 @@
         <el-form-item>
           <el-switch
             v-model="articleInfo.publish"
-            active-value="1"
-            inactive-value="0"
+            :active-value="1"
+            :inactive-value="0"
             active-text="发布"
             inactive-text="暂存"
           />
@@ -77,7 +77,7 @@ export default {
     return {
       articleInfo: {
         tags: [],
-        publish: false
+        publish: 0
       },
       rules: {
         name: [
@@ -92,6 +92,15 @@ export default {
       loading: false,
       curTagName: ""
     };
+  },
+  watch: {
+    articleInfo: {
+      deep: true,
+      immediate: true,
+      handler(v) {
+        console.log(v.publish);
+      }
+    }
   },
   created() {
     this.id ? this.getArticle() : "";

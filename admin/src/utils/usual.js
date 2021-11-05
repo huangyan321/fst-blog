@@ -11,6 +11,6 @@ export function getDomain() {
   let domain = url.substring(0, i);
   console.log(domain);
   domain = domain === "http://localhost" ? domain : "http://121.196.101.73";
-  domain = domain + ":9000/admin/api/";
+  domain = domain + ":9000/admin/";
   return domain;
 }

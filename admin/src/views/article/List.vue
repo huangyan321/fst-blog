@@ -82,7 +82,7 @@ export default {
       this.loading = false;
     },
     publishStatus(v) {
-      return v.publish === "1" ? "已发布" : "待发布";
+      return v.publish === 1 ? "已发布" : "待发布";
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {

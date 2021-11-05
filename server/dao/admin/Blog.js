@@ -43,7 +43,7 @@ module.exports = class Blog_dao extends require('../../model/common/curd') {
       },
       {
         key: 'publish',
-        type: 'string',
+        type: 'number',
       },
     ])
     if (!result) {
@@ -148,7 +148,6 @@ module.exports = class Blog_dao extends require('../../model/common/curd') {
         ...Tips[1005],
       })
     }
-    console.log(data)
     const result = Utils.formatData(data, [
       {
         key: 'tags',
@@ -172,7 +171,7 @@ module.exports = class Blog_dao extends require('../../model/common/curd') {
       },
       {
         key: 'publish',
-        type: 'string',
+        type: 'number',
       },
     ])
     if (!result) {
@@ -222,10 +221,8 @@ module.exports = class Blog_dao extends require('../../model/common/curd') {
       res.send(Tips[1008])
     }
   }
-  //TODO 待验证
   //发布博客
   static async changeBlogPublicStatus(req, res) {
-    console.log('进来了')
     const data = Utils.filter(req.body, ['blog_id', 'publish'])
     const { uid } = await Jwt.verifysync(
       req.headers.authorization,
@@ -243,7 +240,7 @@ module.exports = class Blog_dao extends require('../../model/common/curd') {
       },
       {
         key: 'publish',
-        type: 'string',
+        type: 'number',
       },
     ])
     if (!result) {
