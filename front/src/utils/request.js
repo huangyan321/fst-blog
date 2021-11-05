@@ -1,10 +1,14 @@
 import axios from 'axios'
-import nProgress from 'nprogress'
+import { getDomain } from '../utils/usual'
+import nProgress from 'nprogress' // 引入nprogress插件
+import 'nprogress/nprogress.css'
+nProgress.configure({ easing: 'ease', speed: 300 })
 const request = axios.create({
-  baseURL: 'http://127.0.0.1:9000',
+  baseURL: getDomain(),
   timeout: 9000
 })
 request.interceptors.request.use(config => {
+  console.log('nProgress.start()')
   nProgress.start()
   return config
   error => {

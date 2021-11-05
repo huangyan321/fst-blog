@@ -1,7 +1,7 @@
 import { request } from '../utils/request'
 export function queryAllTags() {
   return request({
-    url: '/bp/api/tags/queryAll',
+    url: 'tags/queryAll',
     method: 'get'
   })
 }
