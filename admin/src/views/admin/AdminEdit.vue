@@ -5,17 +5,17 @@
     </div>
     <el-form ref="adminInfo" :model="adminInfo" :rules="rules">
       <el-form-item label="用户名" prop="name">
-        <el-input v-model="adminInfo.name" style="width: 50%"> </el-input>
+        <el-input v-model="adminInfo.name" style="width: 50%" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="adminInfo.password" style="width: 50%"> </el-input>
+        <el-input v-model="adminInfo.password" style="width: 50%" />
       </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
-          @click.stop.prevent="save"
           style="margin-top: 20px"
           :loading="loading"
+          @click.stop.prevent="save"
         >
           保存
         </el-button>
@@ -29,10 +29,8 @@ export default {
   props: {
     id: {
       type: String,
-    },
-  },
-  created() {
-    this.id ? this.getAdmin() : "";
+      default: ''
+    }
   },
   data() {
     return {
@@ -40,7 +38,7 @@ export default {
       parentsList: [],
       adminInfo: {
         name: "",
-        password: "",
+        password: ""
       },
       rules: {
         name: [
@@ -48,18 +46,21 @@ export default {
           {
             min: 1,
             message: "至少1个字符",
-            trigger: "blur",
-          },
-        ],
+            trigger: "blur"
+          }
+        ]
       },
-      loading: false,
+      loading: false
     };
+  },
+  created() {
+    this.id ? this.getAdmin() : "";
   },
   mounted() {},
 
   methods: {
     save() {
-      this.$refs.adminInfo.validate(async (valid) => {
+      this.$refs.adminInfo.validate(async valid => {
         if (!valid) return;
         this.loading = true;
         if (this.id) {
@@ -70,24 +71,23 @@ export default {
         }
         res.code == 200
           ? (() => {
-              this.$notify.success("请求成功");
-              this.$router.replace("/admin/list");
-            })()
+            this.$notify.success("请求成功");
+            this.$router.replace("/admin/list");
+          })()
           : this.$notify.error(res.msg);
         this.loading = false;
       });
     },
     async getAdmin() {
-      let res = await getOneAdmin({ user_id: this.id });
+      const res = await getOneAdmin({ user_id: this.id });
       res.code == 200
         ? (() => {
-            this.adminInfo = Object.assign({}, this.adminInfo, res.data);
-            console.log(res);
-          })()
+          this.adminInfo = Object.assign({}, this.adminInfo, res.data);
+          console.log(res);
+        })()
         : this.$notify.error(res.msg);
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

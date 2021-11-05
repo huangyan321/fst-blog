@@ -8,12 +8,12 @@
         <el-col :span="12" :push="5">
           <el-button
             type="primary"
-            @click.stop.prevent="save"
             style="margin-top: 20px"
             :loading="loading"
+            @click.stop.prevent="save"
           >
             保存
-            <i class="el-icon-upload el-icon--right"></i>
+            <i class="el-icon-upload el-icon--right" />
           </el-button>
         </el-col>
       </el-row>
@@ -25,19 +25,18 @@
             inactive-value="0"
             active-text="发布"
             inactive-text="暂存"
-          >
-          </el-switch>
+          />
         </el-form-item>
         <el-form-item label="文章标题" prop="title">
-          <el-input v-model="articleInfo.title"></el-input>
+          <el-input v-model="articleInfo.title" />
         </el-form-item>
         <el-form-item label="添加标签" prop="tags">
           <div class="addTagInput">
             <el-input
-              placeholder="按下回车添加标签"
               v-model="curTagName"
+              placeholder="按下回车添加标签"
               @keyup.enter.native="AddTag"
-            ></el-input>
+            />
           </div>
           <div class="tag">
             <el-tag
@@ -51,7 +50,7 @@
           </div>
         </el-form-item>
         <el-form-item label="简介" prop="title">
-          <el-input v-model="articleInfo.brief"></el-input>
+          <el-input v-model="articleInfo.brief" />
         </el-form-item>
         <el-form-item prop="content">
           <Markdown v-model="articleInfo.content" />
@@ -66,22 +65,19 @@ import Markdown from "vue-meditor";
 import { addArticle, getOneArticle, editOneArticle } from "@/api/article";
 export default {
   components: {
-    Markdown,
+    Markdown
   },
   props: {
     id: {
-      type: String,
-    },
-  },
-  created() {
-    this.id ? this.getArticle() : "";
+      type: String
+    }
   },
   data() {
     return {
       newsList: [],
       articleInfo: {
         tags: [],
-        publish: false,
+        publish: false
       },
       rules: {
         name: [
@@ -89,19 +85,22 @@ export default {
           {
             min: 1,
             message: "至少1个字符",
-            trigger: "blur",
-          },
-        ],
+            trigger: "blur"
+          }
+        ]
       },
       loading: false,
-      curTagName: "",
+      curTagName: ""
     };
+  },
+  created() {
+    this.id ? this.getArticle() : "";
   },
   mounted() {},
 
   methods: {
     save() {
-      this.$refs.articleInfo.validate(async (valid) => {
+      this.$refs.articleInfo.validate(async valid => {
         if (!valid) return;
         this.loading = true;
         console.log(this.articleInfo);
@@ -112,25 +111,25 @@ export default {
         }
         res.code == 200
           ? (() => {
-              this.$notify.success("请求成功");
-              this.$router.replace("/article/list");
-            })()
+            this.$notify.success("请求成功");
+            this.$router.replace("/article/list");
+          })()
           : this.$notify.error(res.msg);
         this.loading = false;
       });
     },
     async getArticle() {
-      let res = await getOneArticle({ blog_id: this.id });
+      const res = await getOneArticle({ blog_id: this.id });
       res.code == 200
         ? (() => {
-            this.articleInfo = res.data;
-            console.log(res);
-          })()
+          this.articleInfo = res.data;
+          console.log(res);
+        })()
         : this.$notify.error(res.msg);
     },
     async getCategoryList() {
       const { data } = await getCategoryList();
-      this.newsList = data.filter((item) => {
+      this.newsList = data.filter(item => {
         return item.parent ? item.parent.name === "news" : "";
       });
     },
@@ -140,8 +139,8 @@ export default {
     },
     handleTagClose(v) {
       this.articleInfo.tags.splice(this.articleInfo.tags.indexOf(v), 1);
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

@@ -50,9 +50,9 @@ export default {
       queryInfo: {
         pageNum: 1,
         pageSize: 10,
-        type: 0,
+        type: 0
       },
-      total: 0,
+      total: 0
     };
   },
   created() {
@@ -61,7 +61,7 @@ export default {
   mounted() {},
   methods: {
     async getList() {
-      let res = await getArticleList(this.queryInfo);
+      const res = await getArticleList(this.queryInfo);
       this.articleList = res.data;
       this.total = res.total;
     },
@@ -69,14 +69,14 @@ export default {
       this.loading = true;
       this.$confirm(`是否确定删除文章${row.title}`, "提示", {
         confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      }).then(async () => {
+        cancelButtonText: "取消"
+      }).then(async() => {
         const res = await deleteOneArticle({ blog_id: row.blog_id });
-        res.code == 200
+        res.code === 200
           ? (() => {
-              this.$notify.success("删除成功");
-              this.getList();
-            })()
+            this.$notify.success("删除成功");
+            this.getList();
+          })()
           : this.$notify.error("删除失败");
       });
       this.loading = false;
@@ -93,9 +93,8 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.currPage = newPage;
       this.getList();
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

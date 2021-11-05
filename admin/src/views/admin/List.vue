@@ -47,9 +47,9 @@ export default {
       loading: false,
       queryInfo: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 10
       },
-      total: 0,
+      total: 0
     };
   },
   created() {
@@ -61,23 +61,23 @@ export default {
       const res = await getAdminList(this.queryInfo);
       res.code == 200
         ? (() => {
-            this.adminList = res.data;
-            this.total = res.total;
-          })()
+          this.adminList = res.data;
+          this.total = res.total;
+        })()
         : this.$notify.error(res.msg);
     },
     remove(row) {
       this.loading = true;
       this.$confirm(`是否确定删除用户${row.name}`, "提示", {
         confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      }).then(async () => {
+        cancelButtonText: "取消"
+      }).then(async() => {
         const res = await deleteOneAdmin({ user_id: row.uid });
         res.code == 200
           ? (() => {
-              this.$notify.success("删除成功");
-              this.getList();
-            })()
+            this.$notify.success("删除成功");
+            this.getList();
+          })()
           : this.$notify.error(res.msg);
       });
       this.loading = false;
@@ -91,9 +91,8 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.currPage = newPage;
       this.getList();
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

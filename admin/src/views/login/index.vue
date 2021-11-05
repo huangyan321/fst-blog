@@ -60,20 +60,20 @@
           type="primary"
           style="margin-bottom: 30px"
           @click.native.prevent="handleLogin"
-          >登录</el-button
-        >
+        >登录</el-button>
         <el-button
           type="info"
           style="margin-bottom: 30px"
           @click="loginFormReset"
-          >重置</el-button
-        >
+        >重置</el-button>
       </el-row>
     </el-form>
     <div class="footer">
-      <a href="http://beian.miit.gov.cn/" target="_blank" style="color: #a6a9ad"
-        >闽ICP备2021008516号-1</a
-      >
+      <a
+        href="http://beian.miit.gov.cn/"
+        target="_blank"
+        style="color: #a6a9ad"
+      >闽ICP备2021008516号-1</a>
     </div>
   </div>
 </template>

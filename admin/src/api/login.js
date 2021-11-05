@@ -1,19 +1,19 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 
 export function login(data) {
   return request({
-    url: '/user/login',
-    method: 'post',
+    url: "/user/login",
+    method: "post",
     data
-  })
+  });
 }
 
 export function getInfo(token) {
   return request({
     url: `/user/fetchUserInfo`,
-    method: 'get',
+    method: "get",
     params: {
       token
-    },
-  })
+    }
+  });
 }
