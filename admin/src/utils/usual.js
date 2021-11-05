@@ -1,16 +1,16 @@
 export function getDomain() {
-  const find = function(str, symbol, num) {
-    var x = str.indexOf(symbol);
-    for (var i = 0; i < num; ++i) {
-      x = str.indexOf(symbol, ++x);
+  const find = (str, cha, num) => {
+    let x = str.indexOf(cha);
+    for (var i = 0; i < num; i++) {
+      x = str.indexOf(cha, x + 1);
     }
     return x;
   };
   const url = window.location.href;
   const i = find(url, ":", 1);
-  let domain = url.substr(0, i);
-  // domain = process.env.NODE_ENV === 'development' ? "http://121.196.101.73:8888" : "http://127.0.0.1:8888";
-  // domain = "http://121.196.101.73:8888/api/private/v1"
-  domain = "http://127.0.0.1:9000/admin";
+  let domain = url.substring(0, i);
+  console.log(domain);
+  domain = domain === "http://localhost" ? domain : "http://121.196.101.73";
+  domain = domain + ":9000/admin/api/";
   return domain;
 }
