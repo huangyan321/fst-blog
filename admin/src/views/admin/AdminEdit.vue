@@ -47,6 +47,14 @@ export default {
             message: "至少1个字符",
             trigger: "blur"
           }
+        ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          {
+            min: 1,
+            message: "至少6个字符",
+            trigger: "blur"
+          }
         ]
       },
       loading: false
@@ -72,7 +80,7 @@ export default {
         res.code === 200
           ? (() => {
             this.$notify.success("请求成功");
-            this.$router.replace("/admin/list");
+            this.$router.push("/admin/list");
           })()
           : this.$notify.error(res.msg);
         this.loading = false;
