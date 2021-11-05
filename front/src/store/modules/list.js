@@ -4,7 +4,7 @@ import markdownCompile from '../../utils/marked'
 const state = {
   blogs: [],
   pageNum: 1,
-  pageSize: 4,
+  pageSize: 5,
   total: 0,
   currentBlog: {
     id: '',
