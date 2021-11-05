@@ -69,12 +69,12 @@ export default {
   },
   props: {
     id: {
-      type: String
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
-      newsList: [],
       articleInfo: {
         tags: [],
         publish: false
@@ -103,13 +103,14 @@ export default {
       this.$refs.articleInfo.validate(async valid => {
         if (!valid) return;
         this.loading = true;
+        var res
         console.log(this.articleInfo);
         if (this.id) {
-          var res = await editOneArticle(this.articleInfo);
+          res = await editOneArticle(this.articleInfo);
         } else {
-          var res = await addArticle(this.articleInfo);
+          res = await addArticle(this.articleInfo);
         }
-        res.code == 200
+        res.code === 200
           ? (() => {
             this.$notify.success("请求成功");
             this.$router.replace("/article/list");
@@ -120,18 +121,12 @@ export default {
     },
     async getArticle() {
       const res = await getOneArticle({ blog_id: this.id });
-      res.code == 200
+      res.code === 200
         ? (() => {
           this.articleInfo = res.data;
           console.log(res);
         })()
         : this.$notify.error(res.msg);
-    },
-    async getCategoryList() {
-      const { data } = await getCategoryList();
-      this.newsList = data.filter(item => {
-        return item.parent ? item.parent.name === "news" : "";
-      });
     },
     AddTag() {
       this.articleInfo.tags.push({ name: this.curTagName });

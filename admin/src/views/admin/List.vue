@@ -59,7 +59,7 @@ export default {
   methods: {
     async getList() {
       const res = await getAdminList(this.queryInfo);
-      res.code == 200
+      res.code === 200
         ? (() => {
           this.adminList = res.data;
           this.total = res.total;
@@ -73,7 +73,7 @@ export default {
         cancelButtonText: "取消"
       }).then(async() => {
         const res = await deleteOneAdmin({ user_id: row.uid });
-        res.code == 200
+        res.code === 200
           ? (() => {
             this.$notify.success("删除成功");
             this.getList();

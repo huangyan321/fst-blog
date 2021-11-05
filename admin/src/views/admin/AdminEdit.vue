@@ -34,7 +34,6 @@ export default {
   },
   data() {
     return {
-      newsList: [],
       parentsList: [],
       adminInfo: {
         name: "",
@@ -62,14 +61,15 @@ export default {
     save() {
       this.$refs.adminInfo.validate(async valid => {
         if (!valid) return;
+        var res
         this.loading = true;
         if (this.id) {
           console.log(this.adminInfo);
-          var res = await editOneAdmin(this.adminInfo);
+          res = await editOneAdmin(this.adminInfo);
         } else {
-          var res = await addAdmin(this.adminInfo);
+          res = await addAdmin(this.adminInfo);
         }
-        res.code == 200
+        res.code === 200
           ? (() => {
             this.$notify.success("请求成功");
             this.$router.replace("/admin/list");
@@ -80,7 +80,7 @@ export default {
     },
     async getAdmin() {
       const res = await getOneAdmin({ user_id: this.id });
-      res.code == 200
+      res.code === 200
         ? (() => {
           this.adminInfo = Object.assign({}, this.adminInfo, res.data);
           console.log(res);
