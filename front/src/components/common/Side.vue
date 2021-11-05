@@ -103,6 +103,7 @@ export default {
   width 250px
   float left
   text-align center
+  user-select: none
   &__img
     width 150px
     height 150px
@@ -143,12 +144,12 @@ export default {
     color $grey
     cursor pointer
     &:hover
-      color $blue
+      color black
   &__tagItem--active
-    color $blue
-    border 1px solid $blue
+    color black
+    border 1px solid black
   .dirBox
-    padding-left 20px
+    padding-left 10px
     padding-right 15px
     will-change transform
     &--fix
@@ -165,7 +166,6 @@ export default {
       font-size 18px
     ul
       list-style none
-      padding-left 10px
     li
       text-align left
       //list-style-type: square;
