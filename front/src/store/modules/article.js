@@ -1,14 +1,7 @@
 import { queryAllBlogs } from '../../api/article'
 
 const state = {
-  blogs: [],
-  pageNum: 0,
-  pageSize: 0,
-  currentBlogs: {
-    id: '',
-    content: ''
-  },
-  currentlyCompiledBlog: ''
+  blogs: []
 }
 const mutations = {
   GET_ALL_BLOGS(state, blogs) {

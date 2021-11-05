@@ -3,10 +3,11 @@
     <div class="article__loading" v-if="showLoading">
       <Loading :text="loadingMsg"></Loading>
     </div>
-    <div class="article__main" v-if="!showLoading">
+    <div class="article__main">
       <div class="article__title">{{ currentBlog.title }}</div>
       <div class="article__time">{{ currentBlog.update_time }}</div>
       <div
+        ref="blog"
         class="article__content markdown-body"
         v-html="compiledMarkdown(currentBlog.content)"
       ></div>
@@ -15,7 +16,7 @@
 </template>
 <script>
 import Loading from '../components/Loading'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import mark from '../utils/marked'
 export default {
   components: {
@@ -39,15 +40,32 @@ export default {
     async getArticle() {
       let that = this
       this.isLoading = true
-      let res = await this.getOneBlog(this.$route.params.id)
-      that.showLoading = false
-      // res.code === 200 ?
+      await this.getOneBlog(this.$route.params.id)
+      this.showLoading = false
+      this.generateDir()
+    },
+    generateDir() {
+      let category = []
+      category = Array.from(this.$refs.blog.querySelectorAll('h1,h2,h3,h4,h5,h6')).map(
+        (item, index) => {
+          item.id = item.localName + '-' + index
+          return {
+            tagName: item.localName,
+            text: item.innerText,
+            href: '#' + item.localName + '-' + index
+          }
+        }
+      )
+      this.triggerDir(category)
     },
     compiledMarkdown(value) {
       return mark(value)
     },
     ...mapActions('list', {
       getOneBlog: 'getOneBlog'
+    }),
+    ...mapMutations('side', {
+      triggerDir: 'TRIGGER_DIR'
     })
   }
 }

@@ -8,6 +8,8 @@ const getters = {
   pageSize: state => state.list.pageSize,
   currentlyCompiledBlog: state => state.list.currentlyCompiledBlog,
   currentBlog: state => state.list.currentBlog,
-  total: state => state.list.total
+  total: state => state.list.total,
+  isInList: state => state.side.isInList,
+  articleDir: state => state.side.articleDir
 }
 export default getters

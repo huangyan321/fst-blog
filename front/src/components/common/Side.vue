@@ -19,7 +19,7 @@
           <a :href="icon.href"><i class="iconfont" :class="'icon-' + icon.name"></i></a>
         </li>
       </ul>
-      <ul class="sideBox__tagList">
+      <ul class="sideBox__tagList" v-if="isInList">
         <li
           v-for="(tag, idx) in tags"
           :key="idx"
@@ -30,6 +30,16 @@
           <span>{{ tag.name }}</span>
         </li>
       </ul>
+      <div v-else-if="!isInList" class="dirBox" :class="{ 'dirBox--fix': true }">
+        <p class="dir__title">
+          目录
+        </p>
+        <ul>
+          <li v-for="item in articleDir" :key="item.text" :class="'dirBox__' + item.tagName">
+            <a :href="item.href">{{ item.text }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -51,10 +61,15 @@ export default {
       handler(v) {
         console.log(v)
       }
+    },
+    $route: {
+      handler(v) {
+        v.params.id ? this.triggerIsInList(false) : this.triggerIsInList(true)
+      }
     }
   },
   computed: {
-    ...mapGetters(['sideBoxOpen', 'tags', 'selectTags'])
+    ...mapGetters(['sideBoxOpen', 'tags', 'selectTags', 'isInList', 'articleDir'])
   },
   created() {
     this.getAllTags()
@@ -66,7 +81,8 @@ export default {
     }),
     ...mapMutations('side', {
       closeSideBox: 'CLOSE_SIDE_BOX',
-      triggerSelectTags: 'TRIGGER_SELECT_TAGS'
+      triggerSelectTags: 'TRIGGER_SELECT_TAGS',
+      triggerIsInList: 'TRIGGER_IS_IN_LIST'
     }),
     picClick() {
       this.closeSideBox()
@@ -125,6 +141,53 @@ export default {
   &__tagItem--active
     color $blue
     border 1px solid $blue
+  .dirBox
+    padding-left 20px
+    padding-right 15px
+    will-change transform
+    &--fix
+      position fixed
+      top 350px
+      bottom 0
+      overflow-y auto
+      width 250px
+    &__title
+      margin-top 15px
+      margin-bottom 10px
+      font-weight 400
+      color #808080
+      font-size 18px
+    ul
+      list-style none
+      padding-left 10px
+    li
+      text-align left
+      //list-style-type: square;
+      margin-bottom 5px
+      padding-left 20px
+      word-wrap break-word
+      word-break all
+      a
+        color $grey
+        text-decoration none
+        margin-left -18px
+        word-wrap break-word
+        word-break break-all
+        &:hover
+          color #000000
+          text-decoration underline
+    &__h1
+      margin-left 0
+    &__h2
+      margin-left 20px
+    &__h3
+      margin-left 40px
+    &__h4
+      margin-left 60px
+    &__h5
+      margin-left 80px
+    &__h6
+      margin-left 100px
   @media screen and (max-width 850px)
     .sideBox
       position absolute
