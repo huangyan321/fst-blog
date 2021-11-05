@@ -1,5 +1,5 @@
 module.exports = {
-  title: "blog admin platform",
+  title: 'lan bi tou',
 
   /**
    * @type {boolean} true | false
@@ -12,4 +12,4 @@ module.exports = {
    * @description Whether show the logo in sidebar
    */
   sidebarLogo: false
-};
+}
