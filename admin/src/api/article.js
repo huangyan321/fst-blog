@@ -35,3 +35,10 @@ export function deleteOneArticle(id) {
     data: id
   });
 }
+export function publishOneArticle(data) {
+  return request({
+    url: `/api/blogs/publish`,
+    method: "put",
+    data
+  });
+}

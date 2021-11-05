@@ -2,11 +2,27 @@
   <div>
     <!-- 用户列表区域 -->
     <template>
-      <el-table :data="articleList" style="width: 100%" stripe border>
-        <el-table-column label="序号" prop="_id" />
+      <el-table :data="articleList" stripe border fit>
+        <el-table-column label="文章id" prop="blog_id" width="75px">
+          <template slot-scope="scope">
+            <span>{{ scope.row.blog_id }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column label="标题" prop="title" />
         <el-table-column label="简介" prop="brief" />
-        <el-table-column label="发布状态" :formatter="publishStatus" />
+        <el-table-column label="发布状态">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.publish"
+              :active-value="1"
+              :inactive-value="0"
+              active-text="发布"
+              inactive-text="暂存"
+              @change="publish(scope.row)"
+            />
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -18,7 +34,7 @@
               修改
             </el-button>
             <el-button
-              type="primary"
+              type="danger"
               :loading="loading"
               size="mini"
               @click="remove(scope.row)"
@@ -41,7 +57,7 @@
   </div>
 </template>
 <script>
-import { getArticleList, deleteOneArticle } from "@/api/article";
+import { getArticleList, deleteOneArticle,publishOneArticle } from "@/api/article";
 export default {
   data() {
     return {
@@ -93,6 +109,16 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.currPage = newPage;
       this.getList();
+    },
+    async publish(row) {
+      const res = await publishOneArticle({
+        blog_id: row.blog_id,
+        publish: row.publish
+      })
+      res.code === 200 ? '' : (() => {
+        row.publish = row.publish ? 0 : 1
+        this.$notify.error("修改失败")
+      })();
     }
   }
 };
