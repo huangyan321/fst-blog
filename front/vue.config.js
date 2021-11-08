@@ -5,21 +5,27 @@ const defaultSettings = require('./src/settings.js')
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const name = defaultSettings.title // page title
 
 module.exports = {
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
+  productionSourceMap: false,
   configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
     name: name,
     resolve: {
       alias: {
         '@': resolve('src')
       }
+    },
+    externals: {
+      // CDN 的 Element 依赖全局变量 Vue， 所以 Vue 也需要使用 CDN 引入
+      vue: 'Vue',
+      'vue-router': 'VueRouter',
+      axios: 'axios'
     }
+    // plugins: [new BundleAnalyzerPlugin()]
   }
 }

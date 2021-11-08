@@ -23,6 +23,11 @@
     <strong>We're sorry but <%= webpackConfig.name %> doesn't work properly without JavaScript enabled. Please enable it
       to continue.</strong>
   </noscript>
+  <!-- built files will be auto injected -->
+  <!-- 在引入 ElementUI 之前引入 Vue，会注入全局变量 Vue  -->
+  <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+  <script src='https://unpkg.com/vue-router@3.2.0/dist/vue-router.js'></script>
+  <script src='https://unpkg.com/axios@0.23.0/dist/axios.min.js'></script>
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>

@@ -9,11 +9,11 @@ VueRouter.prototype.push = function push(location) {
 const routes = [
   {
     path: '/',
-    component: () => import('../views/list.vue')
+    component: () => import(/* webpackChunkName: "list" */ '../views/list.vue')
   },
   {
     path: '/article/:id',
-    component: () => import('../views/article.vue')
+    component: () => import(/* webpackChunkName: "article" */ '../views/article.vue')
   }
 ]
 
